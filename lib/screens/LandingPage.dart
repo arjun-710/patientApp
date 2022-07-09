@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:patient_app/constants.dart';
 
 class LandingPage extends StatelessWidget {
   const LandingPage({Key? key}) : super(key: key);
@@ -6,8 +7,17 @@ class LandingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        child: Text('Hello'),
+      backgroundColor: kBackgroundColor,
+      body: SafeArea(
+        child: Container(
+          margin: const EdgeInsets.all(kDefaultMargin),
+          child: const Text(
+            'Hello',
+            style: TextStyle(
+              color: kSecondaryColor,
+            ),
+          ),
+        ),
       ),
     );
   }
