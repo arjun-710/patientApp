@@ -2,8 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:patient_app/screens/LandingPage.dart';
+import 'package:patient_app/screens/LoginScreen.dart';
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(const MyApp());
@@ -21,9 +22,9 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      initialRoute: '/landing',
+      initialRoute: '/login',
       routes: {
-        '/landing': (context) => LandingPage(),
+        '/login': (context) => LoginScreen(),
       },
     );
   }
