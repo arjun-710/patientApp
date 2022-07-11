@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -21,12 +19,31 @@ class _docRegisterState extends State<docRegister> {
   TextEditingController departmentController = TextEditingController();
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   AddDoctor? addDoc;
+
+  Future<bool> checkIfDocExists(User user) async {
+    try {
+      // Get reference to Firestore collection
+      DocumentReference doc = FirebaseFirestore.instance
+          .collection('doctors')
+          .doc(user.phoneNumber);
+
+      var getDoc = await doc.get();
+      return getDoc.exists;
+    } catch (e) {
+      throw e;
+    }
+  }
+
   @override
   void initState() {
     FirebaseAuth auth = FirebaseAuth.instance;
     auth.authStateChanges().listen((User? user) {
       if (user == null) {
         Navigator.pushNamed(context, '/login');
+      } else {
+        checkIfDocExists(user).then((value) => {
+              if (value) {Navigator.pushNamed(context, '/DocLanding')}
+            });
       }
     });
   }
@@ -62,7 +79,6 @@ class _docRegisterState extends State<docRegister> {
             ),
             TextButton(
                 onPressed: () {
-                  log("pressed");
                   addDoc = AddDoctor(
                     name: nameController.text,
                     gender: genderController.text,
@@ -70,7 +86,7 @@ class _docRegisterState extends State<docRegister> {
                     qualifications: qualificationController.text,
                     departments: departmentController.text,
                   );
-                  addDoc!.addDoc();
+                  Navigator.pushNamed(context, '/DocLanding');
                 },
                 child: const Text('Submit'))
           ],

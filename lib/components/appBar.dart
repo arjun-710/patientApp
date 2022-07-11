@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:patient_app/constants.dart';
 
@@ -9,18 +10,24 @@ class DefaultAppBar {
         "DoctApp",
         style: TextStyle(color: kAppBarTextColor),
       ),
-      actions: const <Widget>[
-        Padding(
-          padding: EdgeInsets.all(kDefaultPadding),
-          child: Icon(Icons.search),
-        ),
-        Padding(
-          padding: EdgeInsets.all(kDefaultPadding),
-          child: Icon(Icons.notifications),
-        ),
-        Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Icon(Icons.more_vert),
+      actions: <Widget>[
+        // const Padding(
+        //   padding: EdgeInsets.all(kDefaultPadding),
+        //   child: Icon(Icons.search),
+        // ),
+        // const Padding(
+        //   padding: EdgeInsets.all(kDefaultPadding),
+        //   child: Icon(Icons.notifications),
+        // ),
+        GestureDetector(
+          onTap: () async {
+            FirebaseAuth auth = FirebaseAuth.instance;
+            await auth.signOut();
+          },
+          child: const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Icon(Icons.logout_outlined),
+          ),
         ),
       ],
     );

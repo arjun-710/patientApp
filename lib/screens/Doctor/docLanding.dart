@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:patient_app/components/appBar.dart';
 
 class DocLanding extends StatelessWidget {
   const DocLanding({Key? key}) : super(key: key);
@@ -15,12 +16,15 @@ class DocLanding extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: [
-        Container(
-          child: Text(('Doctor Landing')),
+    return Scaffold(
+      appBar: DefaultAppBar().appBar(),
+      body: SafeArea(
+        child: ListView(
+          children: const [
+            Text('Doctor Landing'),
+          ],
         ),
-      ],
+      ),
     );
   }
 }

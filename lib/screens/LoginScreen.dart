@@ -23,6 +23,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     FirebaseAuth auth = FirebaseAuth.instance;
+    // auth.signOut();
     auth.authStateChanges().listen((User? user) {
       if (user != null) {
         Navigator.pushNamed(context, '/docRegister');
@@ -35,7 +36,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       appBar: AppBar(),
       body: Container(
-          padding: EdgeInsets.all(10),
+          padding: const EdgeInsets.all(10),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

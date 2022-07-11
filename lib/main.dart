@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:patient_app/screens/Doctor/docLanding.dart';
 import 'package:patient_app/screens/Doctor/docRegister.dart';
 import 'package:patient_app/screens/LoginScreen.dart';
 
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/login',
       routes: {
         '/login': (context) => const LoginScreen(),
+        '/DocLanding': (context) => const DocLanding(),
         '/docRegister': (context) => const docRegister()
       },
     );
