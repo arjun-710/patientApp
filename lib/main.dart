@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:patient_app/screens/LandingPage.dart';
+import 'package:patient_app/screens/Doctor/docRegister.dart';
 import 'package:patient_app/screens/LoginScreen.dart';
 
 Future<void> main() async {
@@ -24,7 +24,8 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/login',
       routes: {
-        '/login': (context) => LoginScreen(),
+        '/login': (context) => const LoginScreen(),
+        '/docRegister': (context) => const docRegister()
       },
     );
   }

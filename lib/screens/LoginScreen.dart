@@ -21,6 +21,16 @@ class _LoginScreenState extends State<LoginScreen> {
   bool otpcodesent = false;
 
   @override
+  void initState() {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    auth.authStateChanges().listen((User? user) {
+      if (user != null) {
+        Navigator.pushNamed(context, '/docRegister');
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
@@ -32,7 +42,7 @@ class _LoginScreenState extends State<LoginScreen> {
               Container(
                 child: TextField(
                   controller: phoneController,
-                  decoration: InputDecoration(labelText: "Phone"),
+                  decoration: const InputDecoration(labelText: "Phone"),
                 ),
                 decoration: BoxDecoration(
                   border: Border.all(width: 2.0, color: Colors.blue),
@@ -44,7 +54,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Container(
                   child: TextField(
                     controller: otpController,
-                    decoration: InputDecoration(labelText: "OTP"),
+                    decoration: const InputDecoration(labelText: "OTP"),
                   ),
                   decoration: BoxDecoration(
                     border: Border.all(width: 2.0, color: Colors.blue),
@@ -93,6 +103,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     await auth.signInWithCredential(credential).then((value) {
       print("logged in successfully");
+      Navigator.pushNamed(context, '/docRegister');
     });
   }
 }
