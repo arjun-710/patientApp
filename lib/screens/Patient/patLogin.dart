@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:patient_app/constants.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class PatLogin extends StatefulWidget {
+  const PatLogin({Key? key}) : super(key: key);
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<PatLogin> createState() => _PatLoginState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _PatLoginState extends State<PatLogin> {
   TextEditingController phoneController = TextEditingController();
   TextEditingController otpController = TextEditingController();
 
@@ -26,7 +26,7 @@ class _LoginScreenState extends State<LoginScreen> {
     // auth.signOut();
     auth.authStateChanges().listen((User? user) {
       if (user != null) {
-        Navigator.pushNamed(context, '/docRegister');
+        Navigator.pushNamed(context, '/patRegister');
       }
     });
   }
@@ -111,7 +111,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     await auth.signInWithCredential(credential).then((value) {
       print("logged in successfully");
-      Navigator.pushNamed(context, '/docRegister');
+      Navigator.pushNamed(context, '/patRegister');
     });
   }
 }

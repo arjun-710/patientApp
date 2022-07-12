@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:patient_app/constants.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class DocLogin extends StatefulWidget {
+  const DocLogin({Key? key}) : super(key: key);
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<DocLogin> createState() => _DocLoginState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _DocLoginState extends State<DocLogin> {
   TextEditingController phoneController = TextEditingController();
   TextEditingController otpController = TextEditingController();
 

@@ -2,8 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:patient_app/screens/Doctor/docLanding.dart';
+import 'package:patient_app/screens/Doctor/docLogin.dart';
 import 'package:patient_app/screens/Doctor/docRegister.dart';
 import 'package:patient_app/screens/LoginScreen.dart';
+import 'package:patient_app/screens/Patient/patLogin.dart';
+import 'package:patient_app/screens/Patient/patRegister.dart';
+import 'package:patient_app/screens/landingPage.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,11 +27,15 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      initialRoute: '/login',
+      initialRoute: '/landing',
       routes: {
-        '/login': (context) => const LoginScreen(),
+        '/landing': (context) => const LandingPage(),
+        '/patLogin': (context) => const PatLogin(),
+        '/docLogin': (context) => const DocLogin(),
         '/DocLanding': (context) => const DocLanding(),
-        '/docRegister': (context) => const docRegister()
+        '/docRegister': (context) => const docRegister(),
+        '/patRegister': (context) => const PatRegister(),
+
       },
     );
   }
