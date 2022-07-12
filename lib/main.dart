@@ -8,6 +8,7 @@ import 'package:patient_app/screens/LoginScreen.dart';
 import 'package:patient_app/screens/Patient/patLogin.dart';
 import 'package:patient_app/screens/Patient/patRegister.dart';
 import 'package:patient_app/screens/landingPage.dart';
+import 'package:patient_app/screens/patLanding.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -33,9 +34,9 @@ class MyApp extends StatelessWidget {
         '/patLogin': (context) => const PatLogin(),
         '/docLogin': (context) => const DocLogin(),
         '/DocLanding': (context) => const DocLanding(),
+        '/PatLanding': (context) => const PatLanding(),
         '/docRegister': (context) => const docRegister(),
         '/patRegister': (context) => const PatRegister(),
-
       },
     );
   }

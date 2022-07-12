@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:patient_app/components/appBar.dart';
 import 'package:patient_app/services/addDoctor.dart';
+import 'package:patient_app/services/addPatient.dart';
 
 class PatRegister extends StatefulWidget {
   const PatRegister({Key? key}) : super(key: key);
@@ -15,16 +16,17 @@ class _PatRegisterState extends State<PatRegister> {
   TextEditingController nameController = TextEditingController();
   TextEditingController ageController = TextEditingController();
   TextEditingController genderController = TextEditingController();
-  TextEditingController qualificationController = TextEditingController();
-  TextEditingController departmentController = TextEditingController();
+  TextEditingController wardController = TextEditingController();
+  TextEditingController roomNumController = TextEditingController();
+  TextEditingController bedNumNumController = TextEditingController();
   FirebaseFirestore firestore = FirebaseFirestore.instance;
-  AddDoctor? addDoc;
+  AddPatient? addPat;
 
-  Future<bool> checkIfDocExists(User user) async {
+  Future<bool> checkIfPatExists(User user) async {
     try {
       // Get reference to Firestore collection
       DocumentReference doc = FirebaseFirestore.instance
-          .collection('doctors')
+          .collection('patients')
           .doc(user.phoneNumber);
 
       var getDoc = await doc.get();
@@ -41,8 +43,8 @@ class _PatRegisterState extends State<PatRegister> {
       if (user == null) {
         Navigator.pushNamed(context, '/PatLogin');
       } else {
-        checkIfDocExists(user).then((value) => {
-              if (value) {Navigator.pushNamed(context, '/DocLanding')}
+        checkIfPatExists(user).then((value) => {
+              if (value) {Navigator.pushNamed(context, '/PatLanding')}
             });
       }
     });
@@ -51,7 +53,7 @@ class _PatRegisterState extends State<PatRegister> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: DefaultAppBar().appBar(),
+      appBar: DefaultAppBar(label: "Patient").appBar(),
       body: SafeArea(
         child: ListView(
           children: [
@@ -68,25 +70,28 @@ class _PatRegisterState extends State<PatRegister> {
               currController: ageController,
             ),
             InputField(
-              label: "Qualifications",
-              currController: qualificationController,
-              keyboardType: TextInputType.multiline,
+              label: "ward",
+              currController: wardController,
             ),
             InputField(
-              label: "Department",
-              currController: departmentController,
-              keyboardType: TextInputType.multiline,
+              label: "roomNum",
+              currController: roomNumController,
+            ),
+            InputField(
+              label: "bedNum",
+              currController: bedNumNumController,
             ),
             TextButton(
                 onPressed: () {
-                  addDoc = AddDoctor(
+                  addPat = AddPatient(
                     name: nameController.text,
                     gender: genderController.text,
                     age: int.parse(ageController.text),
-                    qualifications: qualificationController.text,
-                    departments: departmentController.text,
+                    ward: wardController.text,
+                    roomNum: roomNumController.text,
+                    bedNum: bedNumNumController.text,
                   );
-                  Navigator.pushNamed(context, '/DocLanding');
+                  Navigator.pushNamed(context, '/PatLanding');
                 },
                 child: const Text('Submit'))
           ],
@@ -100,7 +105,7 @@ class InputField extends StatelessWidget {
   final String label;
   final TextEditingController currController;
   final TextInputType keyboardType;
-  InputField(
+  const InputField(
       {required this.label,
       required this.currController,
       this.keyboardType = TextInputType.text});

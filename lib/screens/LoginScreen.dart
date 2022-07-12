@@ -38,8 +38,8 @@ class _LoginScreenState extends State<LoginScreen> {
       body: Column(
         children: [
           SvgPicture.asset(
-              kassetName,
-            ),
+            kassetName,
+          ),
           Container(
               padding: const EdgeInsets.all(10),
               child: Column(

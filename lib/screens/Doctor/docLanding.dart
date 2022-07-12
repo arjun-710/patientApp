@@ -17,7 +17,7 @@ class DocLanding extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: DefaultAppBar().appBar(),
+      appBar: DefaultAppBar(label: "Doctor").appBar(),
       body: SafeArea(
         child: ListView(
           children: const [

@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:patient_app/constants.dart';
 
 class DefaultAppBar {
+  final String label;
+  DefaultAppBar({required this.label});
   AppBar appBar() {
     return AppBar(
       backgroundColor: kAppBarColor,
-      title: const Text(
-        "DoctApp",
+      title: Text(
+        label,
         style: TextStyle(color: kAppBarTextColor),
       ),
       actions: <Widget>[

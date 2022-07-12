@@ -39,7 +39,7 @@ class _docRegisterState extends State<docRegister> {
     FirebaseAuth auth = FirebaseAuth.instance;
     auth.authStateChanges().listen((User? user) {
       if (user == null) {
-        Navigator.pushNamed(context, '/login');
+        Navigator.pushNamed(context, '/docLogin');
       } else {
         checkIfDocExists(user).then((value) => {
               if (value) {Navigator.pushNamed(context, '/DocLanding')}
@@ -51,7 +51,7 @@ class _docRegisterState extends State<docRegister> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: DefaultAppBar().appBar(),
+      appBar: DefaultAppBar(label: "Doctors").appBar(),
       body: SafeArea(
         child: ListView(
           children: [

@@ -12,24 +12,57 @@ class LandingPage extends StatelessWidget {
       body: SafeArea(
         child: Center(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SvgPicture.asset(
-                kLandingLogo,
+              SvgPicture.asset(kLandingLogo),
+              const SizedBox(height: 30.0),
+              const Text(
+                'Smart Table',
+                style: TextStyle(fontWeight: kh1FontWeight, fontSize: kh1Size),
               ),
-              SizedBox(
-                height: 10.0,
+              const SizedBox(height: 40.0),
+              GestureDetector(
+                onTap: () => {Navigator.pushNamed(context, '/patLogin')},
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: kButtonHorizontalPadding,
+                        vertical: kButtonVerticalPadding),
+                    decoration: BoxDecoration(
+                        color: kPrimaryColor,
+                        border: Border.all(width: 2.0, color: Colors.white),
+                        borderRadius: BorderRadius.circular(kBorderRadius)),
+                    child: const Center(
+                      child: Text(
+                        'Login as Patient',
+                        style: TextStyle(fontWeight: kh6FontWeight),
+                      ),
+                    ),
+                  ),
+                ),
               ),
-              TextButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/patLogin');
-                },
-                child: Text("Login as Patient"),
-              ),
-              TextButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/docLogin');
-                },
-                child: Text("Login as Doctor"),
+              const SizedBox(height: 20.0),
+              GestureDetector(
+                onTap: () => {Navigator.pushNamed(context, '/docLogin')},
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: kButtonHorizontalPadding,
+                        vertical: kButtonVerticalPadding),
+                    decoration: BoxDecoration(
+                        color: kPrimaryColor,
+                        border: Border.all(width: 2.0, color: Colors.white),
+                        borderRadius: BorderRadius.circular(kBorderRadius)),
+                    child: const Center(
+                      child: Text(
+                        'Login as Doctor',
+                        style: TextStyle(fontWeight: kh6FontWeight),
+                      ),
+                    ),
+                  ),
+                ),
               ),
             ],
           ),
