@@ -38,10 +38,10 @@ class _DocLoginState extends State<DocLogin> {
       body: Column(
         children: [
           SvgPicture.asset(
-              kassetName,
-            ),
+            kassetName,
+          ),
           Container(
-              padding: const EdgeInsets.all(10),
+              padding: const EdgeInsets.symmetric(horizontal: 25),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

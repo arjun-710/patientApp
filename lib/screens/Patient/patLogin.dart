@@ -38,47 +38,60 @@ class _PatLoginState extends State<PatLogin> {
       body: Column(
         children: [
           SvgPicture.asset(
-              kassetName,
+            kassetName,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 25),
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.grey[200],
+                border: Border.all(width: 2.0, color: kPrimaryColor),
+                borderRadius: BorderRadius.circular(kBorderRadius),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.only(left: 10.0),
+                child: TextField(
+                  // keyboardType: TextInputType.number,
+                  controller: phoneController,
+                  decoration: const InputDecoration(
+                      hintText: "Phone", border: InputBorder.none),
+                ),
+              ),
             ),
-          Container(
-              padding: const EdgeInsets.all(10),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    child: TextField(
-                      controller: phoneController,
-                      decoration: const InputDecoration(labelText: "Phone"),
-                    ),
-                    decoration: BoxDecoration(
-                      border: Border.all(width: 2.0, color: Colors.blue),
-                    ),
+          ),
+          const SizedBox(height: 20.0),
+          Visibility(
+            visible: otpcodesent,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.grey[200],
+                  border: Border.all(width: 2.0, color: kPrimaryColor),
+                  borderRadius: BorderRadius.circular(kBorderRadius),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 10.0),
+                  child: TextField(
+                    keyboardType: TextInputType.number,
+                    controller: otpController,
+                    decoration: const InputDecoration(
+                        hintText: "Phone", border: InputBorder.none),
                   ),
-                  const SizedBox(height: 20.0),
-                  Visibility(
-                    visible: otpcodesent,
-                    child: Container(
-                      child: TextField(
-                        controller: otpController,
-                        decoration: const InputDecoration(labelText: "OTP"),
-                      ),
-                      decoration: BoxDecoration(
-                        border: Border.all(width: 2.0, color: Colors.blue),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 20.0),
-                  ElevatedButton(
-                    onPressed: () {
-                      if (otpcodesent)
-                        verifyCode();
-                      else
-                        verifyNumber();
-                    },
-                    child: Text(otpcodesent == false ? "Verify" : "Login"),
-                  ),
-                ],
-              )),
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 20.0),
+          ElevatedButton(
+            onPressed: () {
+              if (otpcodesent)
+                verifyCode();
+              else
+                verifyNumber();
+            },
+            child: Text(otpcodesent == false ? "Verify" : "Login"),
+          ),
         ],
       ),
     );
