@@ -1,19 +1,25 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:patient_app/screens/Doctor/docLanding.dart';
 import 'package:patient_app/screens/Doctor/docLogin.dart';
 import 'package:patient_app/screens/Doctor/docRegister.dart';
-import 'package:patient_app/screens/LoginScreen.dart';
 import 'package:patient_app/screens/Patient/patLogin.dart';
 import 'package:patient_app/screens/Patient/patRegister.dart';
+import 'package:patient_app/screens/Patient/providers/bottomNavigation.dart';
 import 'package:patient_app/screens/landingPage.dart';
-import 'package:patient_app/screens/patLanding.dart';
+import 'package:patient_app/screens/Patient/patLanding.dart';
+import 'package:provider/provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(const MyApp());
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(
+          create: (_) => BottomNavigation()), // add your providers like this.
+    ],
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -34,7 +40,7 @@ class MyApp extends StatelessWidget {
         '/patLogin': (context) => const PatLogin(),
         '/docLogin': (context) => const DocLogin(),
         '/DocLanding': (context) => const DocLanding(),
-        '/PatLanding': (context) => const PatLanding(),
+        '/PatLanding': (context) => PatLanding(),
         '/docRegister': (context) => const DocRegister(),
         '/patRegister': (context) => const PatRegister(),
       },

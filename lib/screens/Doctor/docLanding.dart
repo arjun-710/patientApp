@@ -9,7 +9,7 @@ class DocLanding extends StatelessWidget {
     FirebaseAuth auth = FirebaseAuth.instance;
     auth.authStateChanges().listen((User? user) {
       if (user == null) {
-        Navigator.pushNamed(context, '/login');
+        Navigator.pushNamed(context, '/doclogin');
       }
     });
   }
