@@ -48,6 +48,7 @@ class _PatRegisterState extends State<PatRegister> {
             });
       }
     });
+    // auth.signOut();
   }
 
   @override

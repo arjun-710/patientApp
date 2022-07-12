@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:patient_app/components/appBar.dart';
 import 'package:patient_app/services/addDoctor.dart';
 
-class docRegister extends StatefulWidget {
-  const docRegister({Key? key}) : super(key: key);
+class DocRegister extends StatefulWidget {
+  const DocRegister({Key? key}) : super(key: key);
 
   @override
-  State<docRegister> createState() => _docRegisterState();
+  State<DocRegister> createState() => _DocRegisterState();
 }
 
-class _docRegisterState extends State<docRegister> {
+class _DocRegisterState extends State<DocRegister> {
   TextEditingController nameController = TextEditingController();
   TextEditingController ageController = TextEditingController();
   TextEditingController genderController = TextEditingController();

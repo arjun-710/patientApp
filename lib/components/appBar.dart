@@ -4,7 +4,9 @@ import 'package:patient_app/constants.dart';
 
 class DefaultAppBar {
   final String label;
-  DefaultAppBar({required this.label});
+  DefaultAppBar({required this.label}) {
+    FirebaseAuth auth = FirebaseAuth.instance;
+  }
   AppBar appBar() {
     return AppBar(
       backgroundColor: kAppBarColor,

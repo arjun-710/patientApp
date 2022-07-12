@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
         '/docLogin': (context) => const DocLogin(),
         '/DocLanding': (context) => const DocLanding(),
         '/PatLanding': (context) => const PatLanding(),
-        '/docRegister': (context) => const docRegister(),
+        '/docRegister': (context) => const DocRegister(),
         '/patRegister': (context) => const PatRegister(),
       },
     );

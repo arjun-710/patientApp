@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -12,6 +14,7 @@ class PatLogin extends StatefulWidget {
 
 class _PatLoginState extends State<PatLogin> {
   TextEditingController phoneController = TextEditingController();
+  TextEditingController regionController = TextEditingController(text: "91");
   TextEditingController otpController = TextEditingController();
 
   FirebaseAuth auth = FirebaseAuth.instance;
@@ -34,72 +37,127 @@ class _PatLoginState extends State<PatLogin> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
-      body: Column(
-        children: [
-          SvgPicture.asset(
-            kassetName,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 25),
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.grey[200],
-                border: Border.all(width: 2.0, color: kPrimaryColor),
-                borderRadius: BorderRadius.circular(kBorderRadius),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.only(left: 10.0),
-                child: TextField(
-                  // keyboardType: TextInputType.number,
-                  controller: phoneController,
-                  decoration: const InputDecoration(
-                      hintText: "Phone", border: InputBorder.none),
+      body: SafeArea(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SvgPicture.asset(kassetName),
+              const SizedBox(height: 30.0),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Row(
+                      children: [
+                        SizedBox(
+                          width: 50.0,
+                          child: Container(
+                            padding: const EdgeInsets.only(left: 5.0),
+                            decoration: BoxDecoration(
+                              border:
+                                  Border.all(width: 2.0, color: kPrimaryColor),
+                              borderRadius: const BorderRadius.only(
+                                topLeft: Radius.circular(kBorderRadius),
+                                bottomLeft: Radius.circular(kBorderRadius),
+                              ),
+                            ),
+                            child: Row(
+                              children: [
+                                const Text("+"),
+                                const SizedBox(width: 2.0),
+                                Flexible(
+                                  child: TextField(
+                                    keyboardType: TextInputType.number,
+                                    controller: regionController,
+                                    decoration: const InputDecoration(
+                                        hintText: "91",
+                                        border: InputBorder.none),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Flexible(
+                          child: Container(
+                            padding:
+                                const EdgeInsets.only(left: kDefaultPadding),
+                            decoration: BoxDecoration(
+                              border:
+                                  Border.all(width: 2.0, color: kPrimaryColor),
+                              borderRadius: const BorderRadius.only(
+                                topRight: Radius.circular(kBorderRadius),
+                                bottomRight: Radius.circular(kBorderRadius),
+                              ),
+                            ),
+                            child: TextField(
+                              keyboardType: TextInputType.number,
+                              controller: phoneController,
+                              decoration: const InputDecoration(
+                                  hintText: "Phone", border: InputBorder.none),
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
                 ),
               ),
-            ),
-          ),
-          const SizedBox(height: 20.0),
-          Visibility(
-            visible: otpcodesent,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25.0),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.grey[200],
-                  border: Border.all(width: 2.0, color: kPrimaryColor),
-                  borderRadius: BorderRadius.circular(kBorderRadius),
-                ),
+              const SizedBox(height: 20.0),
+              Visibility(
+                visible: otpcodesent,
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 10.0),
-                  child: TextField(
-                    keyboardType: TextInputType.number,
-                    controller: otpController,
-                    decoration: const InputDecoration(
-                        hintText: "Phone", border: InputBorder.none),
+                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      border: Border.all(width: 2.0, color: kPrimaryColor),
+                      borderRadius: BorderRadius.circular(kBorderRadius),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 10.0),
+                      child: TextField(
+                        keyboardType: TextInputType.number,
+                        controller: otpController,
+                        decoration: const InputDecoration(
+                            hintText: "OTP", border: InputBorder.none),
+                      ),
+                    ),
                   ),
                 ),
               ),
-            ),
+              const SizedBox(height: 40.0),
+              GestureDetector(
+                onTap: () {
+                  if (otpcodesent) {
+                    verifyCode();
+                  } else {
+                    verifyNumber();
+                  }
+                },
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: kButtonHorizontalPadding,
+                      vertical: kButtonVerticalPadding),
+                  decoration: BoxDecoration(
+                      color: kPrimaryColor,
+                      border: Border.all(width: 2.0, color: Colors.white),
+                      borderRadius: BorderRadius.circular(kBorderRadius)),
+                  child: Text(otpcodesent == false ? "Verify" : "Login"),
+                ),
+              ),
+            ],
           ),
-          const SizedBox(height: 20.0),
-          ElevatedButton(
-            onPressed: () {
-              if (otpcodesent)
-                verifyCode();
-              else
-                verifyNumber();
-            },
-            child: Text(otpcodesent == false ? "Verify" : "Login"),
-          ),
-        ],
+        ),
       ),
     );
   }
 
   void verifyNumber() {
     auth.verifyPhoneNumber(
-        phoneNumber: phoneController.text,
+        phoneNumber: "+${regionController.text}${phoneController.text}",
         verificationCompleted: (PhoneAuthCredential credential) async {
           await auth.signInWithCredential(credential).then((value) {
             print("logged in successfully");
@@ -114,6 +172,7 @@ class _PatLoginState extends State<PatLogin> {
           setState(() {
             otpcodesent = true;
           });
+          log("otp sent");
         },
         codeAutoRetrievalTimeout: (String verificationID) {});
   }
