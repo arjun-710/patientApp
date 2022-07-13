@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class PatBottomNavigation extends ChangeNotifier {
-  int _currentIndex = 4;
+class DocBottomNavigation extends ChangeNotifier {
+  int _currentIndex = 2;
   int get currentIndex => _currentIndex;
 
   void setCurrentIndex(int index) {

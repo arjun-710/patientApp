@@ -1,13 +1,16 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:patient_app/screens/Doctor/docLanding.dart';
 import 'package:patient_app/screens/Doctor/docLogin.dart';
 import 'package:patient_app/screens/Doctor/docRegister.dart';
+import 'package:patient_app/screens/Doctor/providers/docbottomNavigation.dart';
 import 'package:patient_app/screens/Patient/patLogin.dart';
 import 'package:patient_app/screens/Patient/patRegister.dart';
 import 'package:patient_app/screens/Patient/providers/bottomNavigation.dart';
 import 'package:patient_app/screens/landingPage.dart';
 import 'package:patient_app/screens/Patient/patLanding.dart';
+import 'package:patient_app/services/AuthService.dart';
 import 'package:provider/provider.dart';
 
 Future<void> main() async {
@@ -15,8 +18,19 @@ Future<void> main() async {
   await Firebase.initializeApp();
   runApp(MultiProvider(
     providers: [
+      Provider<AuthService>(
+        create: (_) => AuthService(FirebaseAuth.instance),
+      ),
+      StreamProvider(
+        create: (context) => context.read<AuthService>().authState,
+        initialData: null,
+      ),
       ChangeNotifierProvider(
-          create: (_) => BottomNavigation()), // add your providers like this.
+          create: (_) =>
+              PatBottomNavigation()), // add your providers like this.
+      ChangeNotifierProvider(
+          create: (_) =>
+              DocBottomNavigation()), // add your providers like this.
     ],
     child: const MyApp(),
   ));
@@ -39,7 +53,7 @@ class MyApp extends StatelessWidget {
         '/landing': (context) => const LandingPage(),
         '/patLogin': (context) => const PatLogin(),
         '/docLogin': (context) => const DocLogin(),
-        '/DocLanding': (context) => const DocLanding(),
+        '/DocLanding': (context) => DocLanding(),
         '/PatLanding': (context) => PatLanding(),
         '/docRegister': (context) => const DocRegister(),
         '/patRegister': (context) => const PatRegister(),

@@ -25,11 +25,11 @@ class _PatLandingState extends State<PatLanding> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: currentTab[context.watch<BottomNavigation>().currentIndex],
+      body: currentTab[context.watch<PatBottomNavigation>().currentIndex],
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: context.watch<BottomNavigation>().currentIndex,
+        currentIndex: context.watch<PatBottomNavigation>().currentIndex,
         onTap: (index) {
-          context.read<BottomNavigation>().setCurrentIndex(index);
+          context.read<PatBottomNavigation>().setCurrentIndex(index);
         },
         items: const [
           BottomNavigationBarItem(

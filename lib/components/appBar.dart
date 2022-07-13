@@ -4,8 +4,9 @@ import 'package:patient_app/constants.dart';
 
 class DefaultAppBar {
   final String label;
+  late FirebaseAuth auth;
   DefaultAppBar({required this.label}) {
-    FirebaseAuth auth = FirebaseAuth.instance;
+    auth = FirebaseAuth.instance;
   }
   AppBar appBar() {
     return AppBar(
@@ -25,6 +26,7 @@ class DefaultAppBar {
         // ),
         GestureDetector(
           onTap: () async {
+            print("tap signout");
             FirebaseAuth auth = FirebaseAuth.instance;
             await auth.signOut();
           },
