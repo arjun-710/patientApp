@@ -26,8 +26,9 @@ class _DocRegisterState extends State<DocRegister> {
   Future<bool> checkIfPatExists(User user) async {
     try {
       // Get reference to Firestore collection
-      DocumentReference doc =
-          FirebaseFirestore.instance.collection('doctor').doc(user.phoneNumber);
+      DocumentReference doc = FirebaseFirestore.instance
+          .collection('doctors')
+          .doc(user.phoneNumber);
 
       var getDoc = await doc.get();
       return getDoc.exists;
@@ -41,7 +42,7 @@ class _DocRegisterState extends State<DocRegister> {
     FirebaseAuth auth = FirebaseAuth.instance;
     auth.authStateChanges().listen((User? user) {
       if (user == null) {
-        Navigator.pushNamed(context, '/DocLogin');
+        Navigator.pushNamed(context, '/docLogin');
       } else {
         checkIfPatExists(user).then((value) => {
               if (value) {Navigator.pushNamed(context, '/DocLanding')}

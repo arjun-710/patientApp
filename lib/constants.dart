@@ -4,6 +4,11 @@ import 'package:flutter/material.dart';
 const String kLogo = 'assets/logo.svg';
 const String kDocLogo = 'assets/docLogo.svg';
 const String kPatLogo = 'assets/patLogo.svg';
+const String kHomeLogo = 'assets/home.svg';
+const String kBooksLogo = 'assets/books.svg';
+const String kAlarmLogo = 'assets/alarm.svg';
+const String kMediaLogo = 'assets/media.svg';
+const String kRecordsLogo = 'assets/records.svg';
 
 //Margins
 const kDefaultMargin = 8.0;

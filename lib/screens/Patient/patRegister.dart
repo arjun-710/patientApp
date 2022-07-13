@@ -43,7 +43,7 @@ class _PatRegisterState extends State<PatRegister> {
     FirebaseAuth auth = FirebaseAuth.instance;
     auth.authStateChanges().listen((User? user) {
       if (user == null) {
-        Navigator.pushNamed(context, '/PatLogin');
+        Navigator.pushNamed(context, '/patLogin');
       } else {
         checkIfPatExists(user).then((value) => {
               if (value) {Navigator.pushNamed(context, '/PatLanding')}

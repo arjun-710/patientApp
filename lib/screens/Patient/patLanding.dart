@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:patient_app/screens/Patient/components/patBottomNavigation.dart';
 import 'package:patient_app/constants.dart';
 import 'package:patient_app/screens/Patient/Tabs/patAlarm.dart';
 import 'package:patient_app/screens/Patient/Tabs/patBooks.dart';
@@ -26,38 +27,18 @@ class _PatLandingState extends State<PatLanding> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: currentTab[context.watch<PatBottomNavigation>().currentIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: context.watch<PatBottomNavigation>().currentIndex,
-        onTap: (index) {
+      bottomNavigationBar: CustomNavigation(
+        iconList: const [
+          kHomeLogo,
+          kBooksLogo,
+          kAlarmLogo,
+          kRecordsLogo,
+          kMediaLogo
+        ],
+        onChange: (index) {
           context.read<PatBottomNavigation>().setCurrentIndex(index);
         },
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            backgroundColor: kPrimaryColor,
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.book),
-            backgroundColor: kPrimaryColor,
-            label: 'Books',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.alarm),
-            backgroundColor: kPrimaryColor,
-            label: 'Alarm',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.receipt),
-            backgroundColor: kPrimaryColor,
-            label: 'Records',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.media_bluetooth_off),
-            backgroundColor: kPrimaryColor,
-            label: 'Media',
-          ),
-        ],
+        defaultSelectedIndex: 0,
       ),
     );
   }
