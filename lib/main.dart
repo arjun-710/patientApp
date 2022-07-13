@@ -45,9 +45,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Patient App',
       theme: ThemeData(
-        // is not restarted.
-        primarySwatch: Colors.blue,
-      ),
+          // is not restarted.
+          primarySwatch: Colors.blue,
+          fontFamily: 'Montserrat'),
       initialRoute: '/landing',
       routes: {
         '/landing': (context) => const LandingPage(),

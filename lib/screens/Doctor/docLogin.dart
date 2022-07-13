@@ -36,14 +36,24 @@ class _DocLoginState extends State<DocLogin> {
 
   @override
   Widget build(BuildContext context) {
+    MediaQueryData queryData;
+    queryData = MediaQuery.of(context);
     return Scaffold(
       body: SafeArea(
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SvgPicture.asset(kassetName),
-              const SizedBox(height: 30.0),
+              SvgPicture.asset(kLogo),
+              const SizedBox(height: 70.0),
+              const Text(
+                'Enter mobile number',
+                style: TextStyle(
+                    fontWeight: kh4FontWeight,
+                    fontSize: kh4size,
+                    fontFamily: 'Montserrat'),
+              ),
+              const SizedBox(height: 40.0),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: Column(
@@ -56,6 +66,7 @@ class _DocLoginState extends State<DocLogin> {
                           child: Container(
                             padding: const EdgeInsets.only(left: 5.0),
                             decoration: BoxDecoration(
+                              color: kTextFieldColor,
                               border:
                                   Border.all(width: 2.0, color: kPrimaryColor),
                               borderRadius: const BorderRadius.only(
@@ -85,6 +96,7 @@ class _DocLoginState extends State<DocLogin> {
                             padding:
                                 const EdgeInsets.only(left: kDefaultPadding),
                             decoration: BoxDecoration(
+                              color: kTextFieldColor,
                               border:
                                   Border.all(width: 2.0, color: kPrimaryColor),
                               borderRadius: const BorderRadius.only(
@@ -112,7 +124,7 @@ class _DocLoginState extends State<DocLogin> {
                   padding: const EdgeInsets.symmetric(horizontal: 25.0),
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Colors.grey[200],
+                      color: kTextFieldColor,
                       border: Border.all(width: 2.0, color: kPrimaryColor),
                       borderRadius: BorderRadius.circular(kBorderRadius),
                     ),
@@ -138,6 +150,7 @@ class _DocLoginState extends State<DocLogin> {
                   }
                 },
                 child: Container(
+                  width: queryData.size.width / 2,
                   padding: const EdgeInsets.symmetric(
                       horizontal: kButtonHorizontalPadding,
                       vertical: kButtonVerticalPadding),
@@ -145,7 +158,8 @@ class _DocLoginState extends State<DocLogin> {
                       color: kPrimaryColor,
                       border: Border.all(width: 2.0, color: Colors.white),
                       borderRadius: BorderRadius.circular(kBorderRadius)),
-                  child: Text(otpcodesent == false ? "Verify" : "Login"),
+                  child: Text(otpcodesent == false ? "Verify" : "Login",
+                      textAlign: TextAlign.center),
                 ),
               ),
             ],

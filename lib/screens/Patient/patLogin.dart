@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:patient_app/components/CustomTextButton.dart';
 import 'package:patient_app/constants.dart';
 
 class PatLogin extends StatefulWidget {
@@ -36,14 +37,24 @@ class _PatLoginState extends State<PatLogin> {
 
   @override
   Widget build(BuildContext context) {
+    MediaQueryData queryData;
+    queryData = MediaQuery.of(context);
     return Scaffold(
       body: SafeArea(
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SvgPicture.asset(kassetName),
-              const SizedBox(height: 30.0),
+              SvgPicture.asset(kLogo),
+              const SizedBox(height: 70.0),
+              const Text(
+                'Enter mobile number',
+                style: TextStyle(
+                    fontWeight: kh4FontWeight,
+                    fontSize: kh4size,
+                    fontFamily: 'Montserrat'),
+              ),
+              const SizedBox(height: 40.0),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: Column(
@@ -56,6 +67,7 @@ class _PatLoginState extends State<PatLogin> {
                           child: Container(
                             padding: const EdgeInsets.only(left: 5.0),
                             decoration: BoxDecoration(
+                              color: kTextFieldColor,
                               border:
                                   Border.all(width: 2.0, color: kPrimaryColor),
                               borderRadius: const BorderRadius.only(
@@ -72,8 +84,9 @@ class _PatLoginState extends State<PatLogin> {
                                     keyboardType: TextInputType.number,
                                     controller: regionController,
                                     decoration: const InputDecoration(
-                                        hintText: "91",
-                                        border: InputBorder.none),
+                                      hintText: "91",
+                                      border: InputBorder.none,
+                                    ),
                                   ),
                                 ),
                               ],
@@ -85,6 +98,7 @@ class _PatLoginState extends State<PatLogin> {
                             padding:
                                 const EdgeInsets.only(left: kDefaultPadding),
                             decoration: BoxDecoration(
+                              color: kTextFieldColor,
                               border:
                                   Border.all(width: 2.0, color: kPrimaryColor),
                               borderRadius: const BorderRadius.only(
@@ -112,7 +126,7 @@ class _PatLoginState extends State<PatLogin> {
                   padding: const EdgeInsets.symmetric(horizontal: 25.0),
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Colors.grey[200],
+                      color: kTextFieldColor,
                       border: Border.all(width: 2.0, color: kPrimaryColor),
                       borderRadius: BorderRadius.circular(kBorderRadius),
                     ),
@@ -129,25 +143,15 @@ class _PatLoginState extends State<PatLogin> {
                 ),
               ),
               const SizedBox(height: 40.0),
-              GestureDetector(
-                onTap: () {
-                  if (otpcodesent) {
-                    verifyCode();
-                  } else {
-                    verifyNumber();
-                  }
-                },
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: kButtonHorizontalPadding,
-                      vertical: kButtonVerticalPadding),
-                  decoration: BoxDecoration(
-                      color: kPrimaryColor,
-                      border: Border.all(width: 2.0, color: Colors.white),
-                      borderRadius: BorderRadius.circular(kBorderRadius)),
-                  child: Text(otpcodesent == false ? "Verify" : "Login"),
-                ),
-              ),
+              CustomTextButton(
+                  onTap: () {
+                    if (otpcodesent) {
+                      verifyCode();
+                    } else {
+                      verifyNumber();
+                    }
+                  },
+                  label: otpcodesent == false ? "Verify" : "Login")
             ],
           ),
         ),

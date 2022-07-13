@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
 //file paths
-const String kLandingLogo = 'assets/landingLogo.svg';
-const String kassetName = 'assets/logo.svg';
+const String kLogo = 'assets/logo.svg';
+const String kDocLogo = 'assets/docLogo.svg';
+const String kPatLogo = 'assets/patLogo.svg';
 
 //Margins
 const kDefaultMargin = 8.0;
@@ -23,7 +24,10 @@ const kButtonVerticalPadding = 18.0;
 //Colors
 const kAppBarColor = Colors.black;
 const kAppBarTextColor = Colors.white;
+
 const kBackgroundColor = Colors.white;
+const kTextFieldColor = Color(0xffF9FBFD);
+
 const kPrimaryColor = Color(0xffAADDE5);
 const kSecondaryColor = Colors.white;
 const kTertiaryColor = Colors.green;
@@ -37,7 +41,14 @@ const kfont3Color = Colors.black26;
 
 //Font Size
 const kh1Size = 24.0;
+const kh2size = 20.0;
+const kh3size = 18.0;
+const kh4size = 15.0;
+const kh5size = 12.0;
+const kh6size = 10.0;
 
 //Font Weights
 const kh1FontWeight = FontWeight.w600;
 const kh6FontWeight = FontWeight.w500;
+const kh5FontWeight = FontWeight.w500;
+const kh4FontWeight = FontWeight.bold;

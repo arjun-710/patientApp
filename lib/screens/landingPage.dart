@@ -7,6 +7,9 @@ class LandingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    MediaQueryData queryData;
+    queryData = MediaQuery.of(context);
+
     return Scaffold(
       backgroundColor: kBackgroundColor,
       body: SafeArea(
@@ -14,11 +17,14 @@ class LandingPage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SvgPicture.asset(kLandingLogo),
-              const SizedBox(height: 30.0),
+              SvgPicture.asset(kLogo),
+              const SizedBox(height: 70.0),
               const Text(
-                'Smart Table',
-                style: TextStyle(fontWeight: kh1FontWeight, fontSize: kh1Size),
+                'login as',
+                style: TextStyle(
+                    fontWeight: kh1FontWeight,
+                    fontSize: kh2size,
+                    fontFamily: 'Montserrat'),
               ),
               const SizedBox(height: 40.0),
               GestureDetector(
@@ -26,6 +32,7 @@ class LandingPage extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25.0),
                   child: Container(
+                    width: queryData.size.width / 2,
                     padding: const EdgeInsets.symmetric(
                         horizontal: kButtonHorizontalPadding,
                         vertical: kButtonVerticalPadding),
@@ -33,10 +40,19 @@ class LandingPage extends StatelessWidget {
                         color: kPrimaryColor,
                         border: Border.all(width: 2.0, color: Colors.white),
                         borderRadius: BorderRadius.circular(kBorderRadius)),
-                    child: const Center(
-                      child: Text(
-                        'Login as Patient',
-                        style: TextStyle(fontWeight: kh6FontWeight),
+                    child: Center(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SvgPicture.asset(kPatLogo),
+                          const SizedBox(width: 10.0),
+                          const Text(
+                            'Patient',
+                            style: TextStyle(
+                                fontWeight: kh6FontWeight,
+                                fontFamily: 'Montserrat'),
+                          ),
+                        ],
                       ),
                     ),
                   ),
@@ -48,6 +64,7 @@ class LandingPage extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25.0),
                   child: Container(
+                    width: queryData.size.width / 2,
                     padding: const EdgeInsets.symmetric(
                         horizontal: kButtonHorizontalPadding,
                         vertical: kButtonVerticalPadding),
@@ -55,10 +72,19 @@ class LandingPage extends StatelessWidget {
                         color: kPrimaryColor,
                         border: Border.all(width: 2.0, color: Colors.white),
                         borderRadius: BorderRadius.circular(kBorderRadius)),
-                    child: const Center(
-                      child: Text(
-                        'Login as Doctor',
-                        style: TextStyle(fontWeight: kh6FontWeight),
+                    child: Center(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SvgPicture.asset(kDocLogo),
+                          const SizedBox(width: 10.0),
+                          const Text(
+                            'Doctor',
+                            style: TextStyle(
+                                fontWeight: kh6FontWeight,
+                                fontFamily: 'Montserrat'),
+                          ),
+                        ],
                       ),
                     ),
                   ),
