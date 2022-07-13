@@ -25,7 +25,6 @@ class AuthService extends ChangeNotifier {
   Future<void> signOut(BuildContext context) async {
     try {
       await _auth.signOut();
-      notifyListeners();
     } on FirebaseAuthException catch (e) {
       showSnackBar(context, e.message!); // Displaying the error message
     }
@@ -35,7 +34,6 @@ class AuthService extends ChangeNotifier {
   Future<void> deleteAccount(BuildContext context) async {
     try {
       await _auth.currentUser!.delete();
-      notifyListeners();
     } on FirebaseAuthException catch (e) {
       showSnackBar(context, e.message!); // Displaying the error message
       // if an error of requires-recent-login is thrown, make sure to log

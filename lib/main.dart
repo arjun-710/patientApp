@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +20,7 @@ Future<void> main() async {
   await Firebase.initializeApp();
   runApp(MultiProvider(
     providers: [
-      Provider<AuthService>(
+      ListenableProvider<AuthService>(
         create: (_) => AuthService(FirebaseAuth.instance),
       ),
       StreamProvider(
@@ -61,3 +63,28 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+// class Wrapper extends StatelessWidget {
+//   const Wrapper({Key? key}) : super(key: key);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     final authService = Provider.of<AuthService>(context);
+//     return StreamBuilder<User?>(
+//         stream: authService.authState,
+//         builder: (_, AsyncSnapshot<User?> snapshot) {
+//           log(snapshot.connectionState.name);
+//           if (snapshot.connectionState == ConnectionState.active) {
+//             final User? user = snapshot.data;
+
+//             return user == null ? const PatLogin() : const LandingPage();
+//           } else {
+//             return const Scaffold(
+//               body: Center(
+//                 child: CircularProgressIndicator(),
+//               ),
+//             );
+//           }
+//         });
+//   }
+// }

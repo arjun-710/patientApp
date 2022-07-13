@@ -1,9 +1,11 @@
 import 'dart:developer';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:patient_app/constants.dart';
+import 'package:patient_app/screens/Doctor/docRegister.dart';
+import 'package:patient_app/services/AuthService.dart';
+import 'package:provider/provider.dart';
 
 class DocLogin extends StatefulWidget {
   const DocLogin({Key? key}) : super(key: key);
@@ -29,144 +31,182 @@ class _DocLoginState extends State<DocLogin> {
     // auth.signOut();
     auth.authStateChanges().listen((User? user) {
       if (user != null) {
-        Navigator.pushNamed(context, '/docRegister');
+        log("doc is not null");
+      } else {
+        log("doc is null");
       }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    MediaQueryData queryData;
-    queryData = MediaQuery.of(context);
-    return Scaffold(
-      body: SafeArea(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SvgPicture.asset(kLogo),
-              const SizedBox(height: 70.0),
-              const Text(
-                'Enter mobile number',
-                style: TextStyle(
-                    fontWeight: kh4FontWeight,
-                    fontSize: kh4size,
-                    fontFamily: 'Montserrat'),
-              ),
-              const SizedBox(height: 40.0),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Row(
-                      children: [
-                        SizedBox(
-                          width: 50.0,
-                          child: Container(
-                            padding: const EdgeInsets.only(left: 5.0),
-                            decoration: BoxDecoration(
-                              color: kTextFieldColor,
-                              border:
-                                  Border.all(width: 2.0, color: kPrimaryColor),
-                              borderRadius: const BorderRadius.only(
-                                topLeft: Radius.circular(kBorderRadius),
-                                bottomLeft: Radius.circular(kBorderRadius),
+    final authService = Provider.of<AuthService>(context);
+    return StreamBuilder<User?>(
+        stream: authService.authState,
+        builder: (_, AsyncSnapshot<User?> snapshot) {
+          log(snapshot.connectionState.name);
+          if (snapshot.connectionState == ConnectionState.active) {
+            final User? user = snapshot.data;
+
+            return user == null
+                ? Scaffold(
+                    body: SafeArea(
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset(kLogo),
+                            const SizedBox(height: 70.0),
+                            const Text(
+                              'Enter mobile number',
+                              style: TextStyle(
+                                  fontWeight: kh4FontWeight,
+                                  fontSize: kh4size,
+                                  fontFamily: 'Montserrat'),
+                            ),
+                            const SizedBox(height: 40.0),
+                            Container(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 25.0),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Row(
+                                    children: [
+                                      SizedBox(
+                                        width: 50.0,
+                                        child: Container(
+                                          padding:
+                                              const EdgeInsets.only(left: 5.0),
+                                          decoration: BoxDecoration(
+                                            color: kTextFieldColor,
+                                            border: Border.all(
+                                                width: 2.0,
+                                                color: kPrimaryColor),
+                                            borderRadius:
+                                                const BorderRadius.only(
+                                              topLeft: Radius.circular(
+                                                  kBorderRadius),
+                                              bottomLeft: Radius.circular(
+                                                  kBorderRadius),
+                                            ),
+                                          ),
+                                          child: Row(
+                                            children: [
+                                              const Text("+"),
+                                              const SizedBox(width: 2.0),
+                                              Flexible(
+                                                child: TextField(
+                                                  keyboardType:
+                                                      TextInputType.number,
+                                                  controller: regionController,
+                                                  decoration:
+                                                      const InputDecoration(
+                                                          hintText: "91",
+                                                          border:
+                                                              InputBorder.none),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      Flexible(
+                                        child: Container(
+                                          padding: const EdgeInsets.only(
+                                              left: kDefaultPadding),
+                                          decoration: BoxDecoration(
+                                            color: kTextFieldColor,
+                                            border: Border.all(
+                                                width: 2.0,
+                                                color: kPrimaryColor),
+                                            borderRadius:
+                                                const BorderRadius.only(
+                                              topRight: Radius.circular(
+                                                  kBorderRadius),
+                                              bottomRight: Radius.circular(
+                                                  kBorderRadius),
+                                            ),
+                                          ),
+                                          child: TextField(
+                                            keyboardType: TextInputType.number,
+                                            controller: phoneController,
+                                            decoration: const InputDecoration(
+                                                hintText: "Phone",
+                                                border: InputBorder.none),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                ],
                               ),
                             ),
-                            child: Row(
-                              children: [
-                                const Text("+"),
-                                const SizedBox(width: 2.0),
-                                Flexible(
-                                  child: TextField(
-                                    keyboardType: TextInputType.number,
-                                    controller: regionController,
-                                    decoration: const InputDecoration(
-                                        hintText: "91",
-                                        border: InputBorder.none),
+                            const SizedBox(height: 20.0),
+                            Visibility(
+                              visible: otpcodesent,
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 25.0),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: kTextFieldColor,
+                                    border: Border.all(
+                                        width: 2.0, color: kPrimaryColor),
+                                    borderRadius:
+                                        BorderRadius.circular(kBorderRadius),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 10.0),
+                                    child: TextField(
+                                      keyboardType: TextInputType.number,
+                                      controller: otpController,
+                                      decoration: const InputDecoration(
+                                          hintText: "OTP",
+                                          border: InputBorder.none),
+                                    ),
                                   ),
                                 ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Flexible(
-                          child: Container(
-                            padding:
-                                const EdgeInsets.only(left: kDefaultPadding),
-                            decoration: BoxDecoration(
-                              color: kTextFieldColor,
-                              border:
-                                  Border.all(width: 2.0, color: kPrimaryColor),
-                              borderRadius: const BorderRadius.only(
-                                topRight: Radius.circular(kBorderRadius),
-                                bottomRight: Radius.circular(kBorderRadius),
                               ),
                             ),
-                            child: TextField(
-                              keyboardType: TextInputType.number,
-                              controller: phoneController,
-                              decoration: const InputDecoration(
-                                  hintText: "Phone", border: InputBorder.none),
+                            const SizedBox(height: 40.0),
+                            GestureDetector(
+                              onTap: () {
+                                if (otpcodesent) {
+                                  verifyCode();
+                                } else {
+                                  verifyNumber();
+                                }
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: kButtonHorizontalPadding,
+                                    vertical: kButtonVerticalPadding),
+                                decoration: BoxDecoration(
+                                    color: kPrimaryColor,
+                                    border: Border.all(
+                                        width: 2.0, color: Colors.white),
+                                    borderRadius:
+                                        BorderRadius.circular(kBorderRadius)),
+                                child: Text(
+                                    otpcodesent == false ? "Verify" : "Login",
+                                    textAlign: TextAlign.center),
+                              ),
                             ),
-                          ),
+                          ],
                         ),
-                      ],
-                    )
-                  ],
-                ),
-              ),
-              const SizedBox(height: 20.0),
-              Visibility(
-                visible: otpcodesent,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: kTextFieldColor,
-                      border: Border.all(width: 2.0, color: kPrimaryColor),
-                      borderRadius: BorderRadius.circular(kBorderRadius),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 10.0),
-                      child: TextField(
-                        keyboardType: TextInputType.number,
-                        controller: otpController,
-                        decoration: const InputDecoration(
-                            hintText: "OTP", border: InputBorder.none),
                       ),
                     ),
-                  ),
-                ),
+                  )
+                : const DocRegister();
+          } else {
+            return Scaffold(
+              body: Center(
+                child: CircularProgressIndicator(),
               ),
-              const SizedBox(height: 40.0),
-              GestureDetector(
-                onTap: () {
-                  if (otpcodesent) {
-                    verifyCode();
-                  } else {
-                    verifyNumber();
-                  }
-                },
-                child: Container(
-                  width: queryData.size.width / 2,
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: kButtonHorizontalPadding,
-                      vertical: kButtonVerticalPadding),
-                  decoration: BoxDecoration(
-                      color: kPrimaryColor,
-                      border: Border.all(width: 2.0, color: Colors.white),
-                      borderRadius: BorderRadius.circular(kBorderRadius)),
-                  child: Text(otpcodesent == false ? "Verify" : "Login",
-                      textAlign: TextAlign.center),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+            );
+          }
+        });
   }
 
   void verifyNumber() {
