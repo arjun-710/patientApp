@@ -31,8 +31,9 @@ class _PatLoginState extends State<PatLogin> {
     auth.authStateChanges().listen((User? user) {
       if (user != null) {
         log("pat user not null");
-      } else
+      } else {
         log("pat user null");
+      }
     });
   }
 
