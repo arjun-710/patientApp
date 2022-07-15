@@ -32,7 +32,9 @@ class PatHome extends StatelessWidget {
                           child: Column(
                             children: [
                               const Greetings(
-                                  greet: "Good morning", personName: "Ms Leny"),
+                                greet: "Good morning",
+                                personName: "Ms Leny",
+                              ),
                               const SizedBox(height: 40),
                               const InfoCard(
                                 posType: "Doctor incharge",
