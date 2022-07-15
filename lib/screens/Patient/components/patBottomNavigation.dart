@@ -19,32 +19,26 @@ class CustomNavigation extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Widget> navBarItemList = [];
     Widget buildNavBarItem(String assetPath, int index) {
-      return GestureDetector(
-        onTap: () {
-          context.read<PatBottomNavigation>().setCurrentIndex(index);
-        },
-        child: Container(
-          height: 60,
-          width: MediaQuery.of(context).size.width / iconList.length,
-          decoration: index == context.read<PatBottomNavigation>().currentIndex
-              ? BoxDecoration(
-                  border: const Border(
-                    bottom: BorderSide(width: 4, color: kPrimaryColor),
-                  ),
-                  gradient: LinearGradient(colors: [
-                    kPrimaryColor.withOpacity(0.3),
-                    kPrimaryColor.withOpacity(0.015),
-                  ], begin: Alignment.bottomCenter, end: Alignment.topCenter)
-                  // color: index == _selectedItemIndex ? Colors.green : Colors.white,
-                  )
-              : const BoxDecoration(),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: SvgPicture.asset(
-              assetPath,
-              color: index == context.read<PatBottomNavigation>().currentIndex
-                  ? Colors.black
-                  : Colors.grey,
+      return Flexible(
+        child: GestureDetector(
+          onTap: () {
+            context.read<PatBottomNavigation>().setCurrentIndex(index);
+          },
+          child: Container(
+            height: 65,
+            width: MediaQuery.of(context).size.width / iconList.length,
+            decoration:
+                index == context.read<PatBottomNavigation>().currentIndex
+                    ? BoxDecoration(
+                        color: kNavColor,
+                        borderRadius: BorderRadius.circular(kBorderRadius),
+                      )
+                    : const BoxDecoration(),
+            child: Padding(
+              padding: const EdgeInsets.all(kDefaultPadding * 1.25),
+              child: SvgPicture.asset(
+                assetPath,
+              ),
             ),
           ),
         ),
@@ -55,14 +49,16 @@ class CustomNavigation extends StatelessWidget {
       navBarItemList.add(buildNavBarItem(iconList[i], i));
     }
 
-    return Container(
-      padding: const EdgeInsets.only(top: kDefaultPadding),
-      decoration: BoxDecoration(
-        color: const Color(0xffEFF6FC),
-        borderRadius: BorderRadius.circular(kBorderRadius * 2),
-      ),
-      child: Row(
-        children: navBarItemList,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      child: Container(
+        padding: const EdgeInsets.only(top: kDefaultPadding),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(kBorderRadius * 2),
+        ),
+        child: Row(
+          children: navBarItemList,
+        ),
       ),
     );
   }

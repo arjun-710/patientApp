@@ -9,6 +9,14 @@ const String kBooksLogo = 'assets/books.svg';
 const String kAlarmLogo = 'assets/alarm.svg';
 const String kMediaLogo = 'assets/media.svg';
 const String kRecordsLogo = 'assets/records.svg';
+const String kTimeLogo = 'assets/time.svg';
+
+const String kDocCircle = 'assets/docCircle.svg';
+const String kClockLogo = 'assets/clock.svg';
+const String kRight = 'assets/right.svg';
+const String kBook1 = 'assets/book1.png';
+const String kBook2 = 'assets/book2.png';
+const String kBook3 = 'assets/book3.png';
 
 //Margins
 const kDefaultMargin = 8.0;
@@ -17,7 +25,7 @@ const kDefaultMargin = 8.0;
 const kDefaultPadding = 8.0;
 
 //Borders
-const kBorderRadius = 10.0;
+const kBorderRadius = 12.0;
 
 //SizedBox
 const kSizedBoxHeight = 20.0;
@@ -32,8 +40,12 @@ const kAppBarTextColor = Colors.white;
 
 const kBackgroundColor = Colors.white;
 const kTextFieldColor = Color(0xffF9FBFD);
+const kStrokeColor = Color(0xff756a70);
+const kMedCardColor = Color(0xffFEECE2);
+const kNavColor = Color(0xffAADDE5);
 
 const kPrimaryColor = Color(0xffAADDE5);
+const kPatCardColor = Color(0xffFBE0E3);
 const kSecondaryColor = Colors.white;
 const kTertiaryColor = Colors.green;
 /////////////////////////////////////////////
@@ -45,7 +57,7 @@ const kfont2Color = Colors.black12;
 const kfont3Color = Colors.black26;
 
 //Font Size
-const kh1Size = 24.0;
+const kh1Size = 32.0;
 const kh2size = 20.0;
 const kh3size = 18.0;
 const kh4size = 15.0;
