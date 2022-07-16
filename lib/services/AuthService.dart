@@ -1,9 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:patient_app/utils/showSnackBar.dart';
 
 class AuthService extends ChangeNotifier {
   final FirebaseAuth _auth;
+  final FirebaseFirestore db = FirebaseFirestore.instance;
   AuthService(this._auth);
 
   // FOR EVERY FUNCTION HERE

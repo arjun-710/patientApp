@@ -10,6 +10,9 @@ const String kAlarmLogo = 'assets/alarm.svg';
 const String kMediaLogo = 'assets/media.svg';
 const String kRecordsLogo = 'assets/records.svg';
 const String kTimeLogo = 'assets/time.svg';
+const String kProfile = 'assets/profile.svg';
+const String kEmergency = 'assets/emergency.svg';
+const String kCheckUp = 'assets/checkPat.svg';
 
 const String kDocCircle = 'assets/docCircle.svg';
 const String kClockLogo = 'assets/clock.svg';
@@ -43,6 +46,8 @@ const kTextFieldColor = Color(0xffF9FBFD);
 const kStrokeColor = Color(0xff756a70);
 const kMedCardColor = Color(0xffFEECE2);
 const kNavColor = Color(0xffAADDE5);
+const kSosColor = Color(0xffF6B8BF);
+const kCheckUpPat = Color(0xffEFF6FC);
 
 const kPrimaryColor = Color(0xffAADDE5);
 const kPatCardColor = Color(0xffFBE0E3);

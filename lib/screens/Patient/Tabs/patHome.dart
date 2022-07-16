@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -16,33 +15,34 @@ class PatHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final authService = Provider.of<AuthService>(context);
+
     return StreamBuilder<User?>(
         stream: authService.authState,
         builder: (_, AsyncSnapshot<User?> snapshot) {
           if (snapshot.connectionState == ConnectionState.active) {
             final User? user = snapshot.data;
+
             return user == null
                 ? const PatLogin()
                 : SafeArea(
                     child: Scaffold(
                       body: SingleChildScrollView(
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 50, horizontal: 30),
+                          padding: EdgeInsets.fromLTRB(30, 40, 30, 0),
                           child: Column(
                             children: [
                               const Greetings(
                                 greet: "Good morning",
                                 personName: "Ms Leny",
                               ),
-                              const SizedBox(height: 40),
+                              const SizedBox(height: 30),
                               const InfoCard(
                                 posType: "Doctor incharge",
                                 name: "Dr. Park",
                                 nextVisit: "Next visit at 4pm",
                                 svgPath: kDocCircle,
                               ),
-                              const SizedBox(height: 40),
+                              const SizedBox(height: 20),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -73,7 +73,27 @@ class PatHome extends StatelessWidget {
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 40),
+                              const SizedBox(height: 30),
+                              Container(
+                                padding: EdgeInsets.symmetric(vertical: 22.5),
+                                decoration: BoxDecoration(
+                                  color: kSosColor,
+                                  borderRadius:
+                                      BorderRadius.circular(kBorderRadius),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    SvgPicture.asset(kEmergency),
+                                    SizedBox(width: 15),
+                                    Text(
+                                      "SOS",
+                                      style: TextStyle(fontSize: kh2size),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              SizedBox(height: 20),
                               Container(
                                 decoration: BoxDecoration(
                                   color: kMedCardColor,
@@ -95,13 +115,27 @@ class PatHome extends StatelessWidget {
                                         Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
-                                          children: const [
-                                            Text("Medicine time in",
-                                                style: TextStyle(
-                                                    fontSize: kh4size)),
-                                            Text("50min.",
-                                                style: TextStyle(
-                                                    fontSize: kh3size)),
+                                          children: [
+                                            RichText(
+                                              text: TextSpan(
+                                                  text: 'Medicine Time in',
+                                                  style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontWeight: kh6FontWeight,
+                                                      fontSize: kh3size),
+                                                  children: <TextSpan>[
+                                                    TextSpan(
+                                                      text: ' 50min.',
+                                                      style: TextStyle(
+                                                          fontSize: kh2size,
+                                                          fontWeight:
+                                                              kh4FontWeight),
+                                                    )
+                                                  ]),
+                                            ),
+                                            // Text("Medicine time in 50min.",
+                                            //     style: TextStyle(
+                                            //         fontSize: kh4size)),
                                           ],
                                         ),
                                       ],

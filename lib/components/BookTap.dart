@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:patient_app/constants.dart';
 
 class BookTap extends StatelessWidget {
   final Function()? onTap;
@@ -10,7 +11,14 @@ class BookTap extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: Image.asset(assetPath),
+      child: Container(
+        decoration:
+            BoxDecoration(borderRadius: BorderRadius.circular(kBorderRadius)),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(kBorderRadius),
+          child: Image.asset(assetPath),
+        ),
+      ),
     );
   }
 }

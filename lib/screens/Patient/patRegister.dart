@@ -5,7 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:patient_app/components/CustomTextButton.dart';
 import 'package:patient_app/components/CustomTextField.dart';
 import 'package:patient_app/constants.dart';
-import 'package:patient_app/services/addPatient.dart';
+import 'package:patient_app/services/patientUser.dart';
 
 class PatRegister extends StatefulWidget {
   const PatRegister({Key? key}) : super(key: key);
@@ -22,7 +22,8 @@ class _PatRegisterState extends State<PatRegister> {
   TextEditingController roomNumController = TextEditingController();
   TextEditingController bedNumNumController = TextEditingController();
   FirebaseFirestore firestore = FirebaseFirestore.instance;
-  AddPatient? addPat;
+  PatientUser? addPat;
+  PatientUser service = PatientUser();
 
   Future<bool> checkIfPatExists(User user) async {
     try {
@@ -122,7 +123,7 @@ class _PatRegisterState extends State<PatRegister> {
                         ),
                         const SizedBox(height: 20.0),
                         CustomTextButton(
-                            onTap: () {
+                            onTap: () async {
                               if (_formKey.currentState!.validate()) {
                                 // If the form is valid, display a snackbar. In the real world,
                                 // you'd often call a server or save the information in a database.
@@ -131,14 +132,14 @@ class _PatRegisterState extends State<PatRegister> {
                                     content: Text('User Registered'),
                                   ),
                                 );
-                                addPat = AddPatient(
-                                  name: nameController.text,
-                                  gender: genderController.text,
-                                  age: int.parse(ageController.text),
-                                  ward: wardController.text,
-                                  roomNum: roomNumController.text,
-                                  bedNum: bedNumNumController.text,
-                                );
+                                PatientUser val = PatientUser(
+                                    name: nameController.text,
+                                    gender: genderController.text,
+                                    age: int.parse(ageController.text),
+                                    ward: wardController.text,
+                                    roomNum: roomNumController.text,
+                                    bedNum: bedNumNumController.text);
+                                await service.addPatient(val);
                                 Navigator.pushNamed(context, '/PatLanding');
                               }
                             },
