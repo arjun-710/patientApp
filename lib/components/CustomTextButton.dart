@@ -8,12 +8,14 @@ class CustomTextButton extends StatelessWidget {
   final String label;
   final Widget children;
   final bool fullWidth;
+  final Color color;
 
   const CustomTextButton(
       {Key? key,
       required this.onTap,
       required this.label,
       this.fullWidth = false,
+      this.color = kPrimaryColor,
       required this.children})
       : super(key: key);
 
@@ -44,7 +46,7 @@ class CustomTextButton extends StatelessWidget {
             horizontal: kButtonHorizontalPadding,
             vertical: kButtonVerticalPadding),
         decoration: BoxDecoration(
-            color: kPrimaryColor,
+            color: color,
             border: Border.all(width: 2.0, color: Colors.white),
             borderRadius: BorderRadius.circular(kBorderRadius)),
         child: Row(

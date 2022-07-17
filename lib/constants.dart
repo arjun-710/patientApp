@@ -25,6 +25,10 @@ const String kBook1 = 'assets/book1.png';
 const String kBook2 = 'assets/book2.png';
 const String kBook3 = 'assets/book3.png';
 
+//Doctor
+
+//Patient
+
 //Margins
 const kDefaultMargin = 8.0;
 
@@ -50,7 +54,7 @@ const kTextFieldColor = Color(0xffF9FBFD);
 const kStrokeColor = Color(0xff756a70);
 const kMedCardColor = Color(0xffFEECE2);
 const kNavColor = Color(0xffAADDE5);
-const kSosColor = Color(0xffF6B8BF);
+const k3Color = Color(0xffF6B8BF);
 const kCheckUpPat = Color(0xffEFF6FC);
 
 const kPrimaryColor = Color(0xffAADDE5);

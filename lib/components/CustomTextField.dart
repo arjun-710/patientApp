@@ -9,6 +9,7 @@ class CustomTextField extends StatelessWidget {
   final String? errorText;
   final List<TextInputFormatter>? inputFormatters;
   final bool readOnly;
+  final InputDecoration? decoration;
 
   const CustomTextField(
       {Key? key,
@@ -17,6 +18,7 @@ class CustomTextField extends StatelessWidget {
       this.keyType,
       this.validator,
       this.errorText,
+      this.decoration,
       this.readOnly = false,
       this.inputFormatters})
       : super(key: key);
@@ -35,26 +37,27 @@ class CustomTextField extends StatelessWidget {
           },
       inputFormatters: inputFormatters,
       readOnly: readOnly,
-      decoration: InputDecoration(
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(15.0),
-          borderSide: const BorderSide(color: Colors.black, width: .75),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(15.0),
-          borderSide: const BorderSide(color: Colors.black, width: 0),
-        ),
-        contentPadding:
-            const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-        filled: true,
-        errorText: errorText,
-        fillColor: const Color(0xffF5F6FA),
-        hintText: hintText,
-        hintStyle: const TextStyle(
-          fontSize: 14,
-          fontWeight: FontWeight.w400,
-        ),
-      ),
+      decoration: decoration ??
+          InputDecoration(
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(15.0),
+              borderSide: const BorderSide(color: Colors.black, width: .75),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(15.0),
+              borderSide: const BorderSide(color: Colors.black, width: 0),
+            ),
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+            filled: true,
+            errorText: errorText,
+            fillColor: const Color(0xffF5F6FA),
+            hintText: hintText,
+            hintStyle: const TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w400,
+            ),
+          ),
     );
   }
 }

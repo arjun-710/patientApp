@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:patient_app/services/AuthService.dart';
@@ -34,6 +33,20 @@ class PatientUser {
       'ward': ward,
       'bedNum': bedNum,
     };
+  }
+
+  Future<bool> checkPatExists(User user) async {
+    try {
+      // Get reference to Firestore collection
+      DocumentReference doc = FirebaseFirestore.instance
+          .collection('patients')
+          .doc(user.phoneNumber);
+
+      var getDoc = await doc.get();
+      return getDoc.exists;
+    } catch (e) {
+      throw e;
+    }
   }
 
   addPatient(PatientUser patData) async {

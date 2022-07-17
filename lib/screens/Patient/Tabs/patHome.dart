@@ -21,7 +21,6 @@ class PatHome extends StatelessWidget {
         builder: (_, AsyncSnapshot<User?> snapshot) {
           if (snapshot.connectionState == ConnectionState.active) {
             final User? user = snapshot.data;
-
             return user == null
                 ? const PatLogin()
                 : SafeArea(
@@ -77,7 +76,7 @@ class PatHome extends StatelessWidget {
                               Container(
                                 padding: EdgeInsets.symmetric(vertical: 22.5),
                                 decoration: BoxDecoration(
-                                  color: kSosColor,
+                                  color: k3Color,
                                   borderRadius:
                                       BorderRadius.circular(kBorderRadius),
                                 ),
