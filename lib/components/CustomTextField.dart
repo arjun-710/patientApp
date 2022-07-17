@@ -8,6 +8,8 @@ class CustomTextField extends StatelessWidget {
   final FormFieldValidator<String>? validator;
   final String? errorText;
   final List<TextInputFormatter>? inputFormatters;
+  final bool readOnly;
+  final String initialText;
 
   const CustomTextField(
       {Key? key,
@@ -16,6 +18,8 @@ class CustomTextField extends StatelessWidget {
       this.keyType,
       this.validator,
       this.errorText,
+      this.initialText = "",
+      this.readOnly = false,
       this.inputFormatters})
       : super(key: key);
 
@@ -32,14 +36,16 @@ class CustomTextField extends StatelessWidget {
             return null;
           },
       inputFormatters: inputFormatters,
+      readOnly: readOnly,
       decoration: InputDecoration(
+        labelText: initialText,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(15.0),
-          borderSide: const BorderSide(color: Colors.transparent, width: 0),
+          borderSide: const BorderSide(color: Colors.black, width: .75),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(15.0),
-          borderSide: const BorderSide(color: Colors.transparent, width: 0),
+          borderSide: const BorderSide(color: Colors.black, width: 0),
         ),
         contentPadding:
             const EdgeInsets.symmetric(horizontal: 16, vertical: 14),

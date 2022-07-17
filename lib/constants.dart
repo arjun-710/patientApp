@@ -13,6 +13,10 @@ const String kTimeLogo = 'assets/time.svg';
 const String kProfile = 'assets/profile.svg';
 const String kEmergency = 'assets/emergency.svg';
 const String kCheckUp = 'assets/checkPat.svg';
+const String kEdit = 'assets/edit.svg';
+const String kLeft = 'assets/left.svg';
+const String kLogoUnnamed = 'assets/logo_unnamed.svg';
+const String kLogout = 'assets/logout.svg';
 
 const String kDocCircle = 'assets/docCircle.svg';
 const String kClockLogo = 'assets/clock.svg';

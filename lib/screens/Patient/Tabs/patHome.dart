@@ -42,7 +42,7 @@ class PatHome extends StatelessWidget {
                                 nextVisit: "Next visit at 4pm",
                                 svgPath: kDocCircle,
                               ),
-                              const SizedBox(height: 20),
+                              const SizedBox(height: 30),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -50,7 +50,7 @@ class PatHome extends StatelessWidget {
                                     "Continue Reading",
                                     style: TextStyle(fontSize: kh2size),
                                   ),
-                                  const SizedBox(height: 30.0),
+                                  const SizedBox(height: 20.0),
                                   Container(
                                     height: 140,
                                     child: ListView(

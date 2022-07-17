@@ -166,6 +166,7 @@ class _PatLoginState extends State<PatLogin> {
                           ),
                           const SizedBox(height: 40.0),
                           CustomTextButton(
+                              children: SizedBox.shrink(),
                               onTap: () {
                                 if (otpcodesent) {
                                   verifyCode();

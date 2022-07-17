@@ -123,6 +123,7 @@ class _PatRegisterState extends State<PatRegister> {
                         ),
                         const SizedBox(height: 20.0),
                         CustomTextButton(
+                            children: SizedBox.shrink(),
                             onTap: () async {
                               if (_formKey.currentState!.validate()) {
                                 // If the form is valid, display a snackbar. In the real world,

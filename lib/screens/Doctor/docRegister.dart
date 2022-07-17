@@ -113,6 +113,7 @@ class _DocRegisterState extends State<DocRegister> {
                         ),
                         const SizedBox(height: 20.0),
                         CustomTextButton(
+                            children: SizedBox.shrink(),
                             onTap: () {
                               if (_formKey.currentState!.validate()) {
                                 // If the form is valid, display a snackbar. In the real world,
