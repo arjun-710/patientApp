@@ -4,11 +4,11 @@ import 'package:patient_app/constants.dart';
 import 'package:patient_app/screens/Doctor/providers/docbottomNavigation.dart';
 import 'package:provider/provider.dart';
 
-class DocCustomNavigation extends StatelessWidget {
+class CustomNavigation extends StatelessWidget {
   final int defaultSelectedIndex;
   final Function(int) onChange;
   final List<String> iconList;
-  const DocCustomNavigation(
+  const CustomNavigation(
       {Key? key,
       this.defaultSelectedIndex = 0,
       required this.iconList,
@@ -19,32 +19,26 @@ class DocCustomNavigation extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Widget> navBarItemList = [];
     Widget buildNavBarItem(String assetPath, int index) {
-      return GestureDetector(
-        onTap: () {
-          context.read<DocBottomNavigation>().setCurrentIndex(index);
-        },
-        child: Container(
-          height: 60,
-          width: MediaQuery.of(context).size.width / iconList.length,
-          decoration: index == context.read<DocBottomNavigation>().currentIndex
-              ? BoxDecoration(
-                  border: const Border(
-                    bottom: BorderSide(width: 4, color: kPrimaryColor),
-                  ),
-                  gradient: LinearGradient(colors: [
-                    kPrimaryColor.withOpacity(0.3),
-                    kPrimaryColor.withOpacity(0.015),
-                  ], begin: Alignment.bottomCenter, end: Alignment.topCenter)
-                  // color: index == _selectedItemIndex ? Colors.green : Colors.white,
-                  )
-              : const BoxDecoration(),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: SvgPicture.asset(
-              assetPath,
-              color: index == context.read<DocBottomNavigation>().currentIndex
-                  ? Colors.black
-                  : Colors.grey,
+      return Flexible(
+        child: GestureDetector(
+          onTap: () {
+            context.read<DocBottomNavigation>().setCurrentIndex(index);
+          },
+          child: Container(
+            height: 65,
+            width: MediaQuery.of(context).size.width / iconList.length,
+            decoration:
+                index == context.read<DocBottomNavigation>().currentIndex
+                    ? BoxDecoration(
+                        color: k3Color,
+                        borderRadius: BorderRadius.circular(kBorderRadius),
+                      )
+                    : const BoxDecoration(),
+            child: Padding(
+              padding: const EdgeInsets.all(kDefaultPadding * 1.25),
+              child: SvgPicture.asset(
+                assetPath,
+              ),
             ),
           ),
         ),
@@ -55,14 +49,16 @@ class DocCustomNavigation extends StatelessWidget {
       navBarItemList.add(buildNavBarItem(iconList[i], i));
     }
 
-    return Container(
-      padding: const EdgeInsets.only(top: kDefaultPadding),
-      decoration: BoxDecoration(
-        color: const Color(0xffEFF6FC),
-        borderRadius: BorderRadius.circular(kBorderRadius * 2),
-      ),
-      child: Row(
-        children: navBarItemList,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      child: Container(
+        padding: const EdgeInsets.only(top: kDefaultPadding),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(kBorderRadius * 2),
+        ),
+        child: Row(
+          children: navBarItemList,
+        ),
       ),
     );
   }
