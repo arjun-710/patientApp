@@ -40,6 +40,7 @@ class PatHome extends StatelessWidget {
                                 name: "Dr. Park",
                                 nextVisit: "Next visit at 4pm",
                                 svgPath: kDocCircle,
+                                child: SizedBox.shrink(),
                               ),
                               const SizedBox(height: 30),
                               Column(

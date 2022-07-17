@@ -86,9 +86,14 @@ flutter:
     - family: Montserrat
       fonts:
         - asset: fonts/Montserrat-Black.ttf
+          weight: 900
         - asset: fonts/Montserrat-ExtraBold.ttf
+          weight: 800
         - asset: fonts/Montserrat-Bold.ttf
           weight: 700
-
+        - asset: fonts/Montserrat-SemiBold.ttf
+          weight: 600
+        - asset: fonts/Montserrat-Medium.ttf
+          weight: 500
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

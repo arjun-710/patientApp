@@ -19,8 +19,10 @@ const String kEdit = 'assets/edit.svg';
 const String kLeft = 'assets/left.svg';
 const String kLogoUnnamed = 'assets/logo_unnamed.svg';
 const String kLogout = 'assets/logout.svg';
+const String kBed = 'assets/bed.svg';
 
 const String kDocCircle = 'assets/docCircle.svg';
+const String kEmergencyWard = 'assets/emergencyWard.svg';
 const String kClockLogo = 'assets/clock.svg';
 const String kRight = 'assets/right.svg';
 const String kBook1 = 'assets/book1.png';
@@ -80,7 +82,9 @@ const kh5size = 12.0;
 const kh6size = 10.0;
 
 //Font Weights
-const kh1FontWeight = FontWeight.w600;
-const kh6FontWeight = FontWeight.w500;
+const kh1FontWeight = FontWeight.w900;
+const kh2FontWeight = FontWeight.w800;
+const kh3FontWeight = FontWeight.w700;
+const kh4FontWeight = FontWeight.w600;
 const kh5FontWeight = FontWeight.w500;
-const kh4FontWeight = FontWeight.bold;
+const kh6FontWeight = FontWeight.w400;
