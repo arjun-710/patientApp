@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:patient_app/services/AuthService.dart';
@@ -49,6 +51,7 @@ class PatientUser {
   }
 
   updatePatient(PatientUser patData) async {
+    log("update Patient method");
     AuthService service = AuthService(FirebaseAuth.instance);
     User user = service.user;
     await db
