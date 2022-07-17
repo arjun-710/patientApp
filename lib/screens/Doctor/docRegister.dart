@@ -5,7 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:patient_app/components/CustomTextButton.dart';
 import 'package:patient_app/components/CustomTextField.dart';
 import 'package:patient_app/constants.dart';
-import 'package:patient_app/services/addDoctor.dart';
+import 'package:patient_app/services/doctorUser.dart';
 
 class DocRegister extends StatefulWidget {
   const DocRegister({Key? key}) : super(key: key);
@@ -21,9 +21,8 @@ class _DocRegisterState extends State<DocRegister> {
   TextEditingController qualificationController = TextEditingController();
   TextEditingController departmentController = TextEditingController();
   FirebaseFirestore firestore = FirebaseFirestore.instance;
-  AddDoctor? addDoc;
 
-  Future<bool> checkIfPatExists(User user) async {
+  Future<bool> checkIfDocExists(User user) async {
     try {
       // Get reference to Firestore collection
       DocumentReference doc = FirebaseFirestore.instance
@@ -44,17 +43,17 @@ class _DocRegisterState extends State<DocRegister> {
       if (user == null) {
         Navigator.pushNamed(context, '/docLogin');
       } else {
-        checkIfPatExists(user).then((value) => {
+        checkIfDocExists(user).then((value) => {
               if (value) {Navigator.pushNamed(context, '/DocLanding')}
             });
       }
     });
-    // auth.signOut();
   }
 
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
+    DoctorUser service = DoctorUser();
     return Scaffold(
       body: SafeArea(
         child: Center(
@@ -114,21 +113,23 @@ class _DocRegisterState extends State<DocRegister> {
                         const SizedBox(height: 20.0),
                         CustomTextButton(
                             children: SizedBox.shrink(),
-                            onTap: () {
+                            onTap: () async {
                               if (_formKey.currentState!.validate()) {
                                 // If the form is valid, display a snackbar. In the real world,
                                 // you'd often call a server or save the information in a database.
+
+                                DoctorUser val = DoctorUser(
+                                    name: nameController.text,
+                                    gender: genderController.text,
+                                    age: int.parse(ageController.text),
+                                    qualification: qualificationController.text,
+                                    department: departmentController.text);
+
+                                await service.addDoctor(val);
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
-                                    content: Text('User Registered'),
+                                    content: Text('Doctor Registered'),
                                   ),
-                                );
-                                addDoc = AddDoctor(
-                                  name: nameController.text,
-                                  gender: genderController.text,
-                                  age: int.parse(ageController.text),
-                                  qualifications: qualificationController.text,
-                                  departments: departmentController.text,
                                 );
                                 Navigator.pushNamed(context, '/DocLanding');
                               }

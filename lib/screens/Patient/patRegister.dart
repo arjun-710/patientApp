@@ -153,11 +153,7 @@ class _PatRegisterState extends State<PatRegister> {
                               if (_formKey.currentState!.validate()) {
                                 // If the form is valid, display a snackbar. In the real world,
                                 // you'd often call a server or save the information in a database.
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text('User Registered'),
-                                  ),
-                                );
+
                                 PatientUser val = PatientUser(
                                     name: nameController.text,
                                     gender: genderController.text,
@@ -166,6 +162,11 @@ class _PatRegisterState extends State<PatRegister> {
                                     roomNum: roomNumController.text,
                                     bedNum: bedNumNumController.text);
                                 await service.addPatient(val);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text('Patient Registered'),
+                                  ),
+                                );
                                 Navigator.pushNamed(context, '/PatLanding');
                               }
                             },

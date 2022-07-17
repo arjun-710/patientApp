@@ -224,6 +224,11 @@ class _DocLoginState extends State<DocLogin> {
           setState(() {
             otpcodesent = true;
           });
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('OTP Sent'),
+            ),
+          );
           log("otp sent");
         },
         codeAutoRetrievalTimeout: (String verificationID) {});

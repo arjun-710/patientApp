@@ -52,7 +52,14 @@ class PatientUser {
   addPatient(PatientUser patData) async {
     AuthService service = AuthService(FirebaseAuth.instance);
     User user = service.user;
-    await db.collection("patients").doc(user.phoneNumber).set(patData.toMap());
+    try {
+      await db
+          .collection("patients")
+          .doc(user.phoneNumber)
+          .set(patData.toMap());
+    } catch (e) {
+      throw e;
+    }
   }
 
   Future<DocumentSnapshot<Object?>> getPatient() async {
