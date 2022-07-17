@@ -43,7 +43,7 @@ class _DocLoginState extends State<DocLogin> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            SvgPicture.asset(kLogo),
+                            SvgPicture.asset(k3Logo),
                             const SizedBox(height: 70.0),
                             const Text(
                               'Enter mobile number',

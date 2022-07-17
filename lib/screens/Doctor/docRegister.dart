@@ -63,10 +63,10 @@ class _DocRegisterState extends State<DocRegister> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SvgPicture.asset(kLogo),
+                  SvgPicture.asset(k3LogoSmall),
                   const SizedBox(height: 40.0),
                   const Text(
-                    'Enter doctor details',
+                    'Enter doctor\'s details',
                     style: TextStyle(
                         fontWeight: kh1FontWeight,
                         fontSize: kh4size,
@@ -113,6 +113,7 @@ class _DocRegisterState extends State<DocRegister> {
                         const SizedBox(height: 20.0),
                         CustomTextButton(
                             children: SizedBox.shrink(),
+                            color: k3Color,
                             onTap: () async {
                               if (_formKey.currentState!.validate()) {
                                 // If the form is valid, display a snackbar. In the real world,

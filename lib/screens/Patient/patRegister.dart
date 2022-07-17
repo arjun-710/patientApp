@@ -71,7 +71,7 @@ class _PatRegisterState extends State<PatRegister> {
                   SvgPicture.asset(kLogo),
                   const SizedBox(height: 40.0),
                   const Text(
-                    'Enter patient details',
+                    'Enter patient\'s details',
                     style: TextStyle(
                         fontWeight: kh1FontWeight,
                         fontSize: kh4size,

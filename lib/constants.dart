@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 const String kLogo = 'assets/logo.svg';
 const String kDocLogo = 'assets/docLogo.svg';
 const String kPatLogo = 'assets/patLogo.svg';
+const String k3Logo = 'assets/k3Logo.svg';
+const String k3LogoSmall = 'assets/k3LogoSmall.svg';
 const String kHomeLogo = 'assets/home.svg';
 const String kBooksLogo = 'assets/books.svg';
 const String kAlarmLogo = 'assets/alarm.svg';
