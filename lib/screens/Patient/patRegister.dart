@@ -57,6 +57,8 @@ class _PatRegisterState extends State<PatRegister> {
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
+    RegExp wardRegex = RegExp(r'[A-Z]+-[0-9]+');
+    RegExp roomRegex = RegExp(r'R+-[0-9]+');
     return Scaffold(
       body: SafeArea(
         child: Center(
@@ -105,21 +107,44 @@ class _PatRegisterState extends State<PatRegister> {
                         ),
                         const SizedBox(height: 20.0),
                         CustomTextField(
-                          keyType: TextInputType.number,
                           hintText: "Ward",
                           controller: wardController,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter some text';
+                            } else if (value == "general" ||
+                                value == "emergency" ||
+                                value == "women") {
+                              return null;
+                            }
+                            return "Enter general, emergency or women";
+                          },
                         ),
                         const SizedBox(height: 20.0),
                         CustomTextField(
-                          keyType: TextInputType.number,
                           hintText: "Room number",
                           controller: roomNumController,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter some text';
+                            } else if (roomRegex.hasMatch(value)) {
+                              return null;
+                            }
+                            return "Enter alphabet R followed by - and number";
+                          },
                         ),
                         const SizedBox(height: 20.0),
                         CustomTextField(
-                          keyType: TextInputType.number,
                           hintText: "Bed Number",
                           controller: bedNumNumController,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter some text';
+                            } else if (wardRegex.hasMatch(value)) {
+                              return null;
+                            }
+                            return "Enter alphabet [A-Z] followed by - and number";
+                          },
                         ),
                         const SizedBox(height: 20.0),
                         CustomTextButton(
