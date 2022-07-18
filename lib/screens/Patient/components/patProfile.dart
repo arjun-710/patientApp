@@ -7,6 +7,7 @@ import 'package:patient_app/components/CustomTextField.dart';
 import 'package:patient_app/constants.dart';
 import 'package:patient_app/services/AuthService.dart';
 import 'package:patient_app/services/patientUser.dart';
+import 'package:patient_app/utils/showSnackBar.dart';
 
 class PatProfile extends StatelessWidget {
   const PatProfile({Key? key}) : super(key: key);
@@ -89,6 +90,8 @@ class _PatChildWrapperState extends State<PatChildWrapper> {
     bedNumController.text = bedNum;
   }
 
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     MediaQueryData queryData;
@@ -120,91 +123,104 @@ class _PatChildWrapperState extends State<PatChildWrapper> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        GestureDetector(
-                            onTap: () {
-                              Navigator.pop(context);
-                            },
-                            child: SvgPicture.asset(kLeft)),
-                        SvgPicture.asset(kLogoUnnamed),
-                        GestureDetector(
-                            onTap: () {
-                              this.setState(() {
-                                canEdit = !canEdit;
-                              });
-                            },
-                            child: SvgPicture.asset(kEdit))
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          GestureDetector(
+                              onTap: () {
+                                Navigator.pop(context);
+                              },
+                              child: SvgPicture.asset(kLeft)),
+                          SvgPicture.asset(kLogoUnnamed),
+                          GestureDetector(
+                              onTap: () {
+                                this.setState(() {
+                                  canEdit = !canEdit;
+                                });
+                              },
+                              child: SvgPicture.asset(kEdit))
+                        ],
+                      ),
+                      SizedBox(height: 30),
+                      Text(
+                        nameController.text,
+                        style: TextStyle(fontSize: kh1Size),
+                      ),
+                      SizedBox(height: 40),
+                      if (canEdit == true) ...[
+                        CustomTextField(
+                          controller: nameController,
+                          hintText: "name",
+                          readOnly: !canEdit,
+                        ),
+                        SizedBox(height: 20),
+                      ] else ...[
+                        SizedBox(height: 40),
                       ],
-                    ),
-                    SizedBox(height: 30),
-                    Text(
-                      nameController.text,
-                      style: TextStyle(fontSize: kh1Size),
-                    ),
-                    SizedBox(height: 40),
-                    if (canEdit == true) ...[
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Flexible(
+                            child: CustomTextField(
+                              controller: genderController,
+                              hintText: "gender",
+                              readOnly: !canEdit,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'necessary field';
+                                } else if (value == "male" ||
+                                    value == "female") {
+                                  return null;
+                                }
+                                return "male or female";
+                              },
+                            ),
+                          ),
+                          SizedBox(width: 10),
+                          SizedBox(
+                            width: queryData.size.width / 2 - 30,
+                            child: CustomTextField(
+                              controller: ageController,
+                              hintText: "age",
+                              readOnly: !canEdit,
+                              keyType: TextInputType.number,
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 20),
                       CustomTextField(
-                        controller: nameController,
-                        hintText: "name",
+                        controller: wardController,
+                        hintText: "ward",
                         readOnly: !canEdit,
                       ),
                       SizedBox(height: 20),
-                    ] else ...[
-                      SizedBox(height: 40),
+                      Row(
+                        children: [
+                          Flexible(
+                            child: CustomTextField(
+                              controller: roomNumController,
+                              hintText: "roomNum",
+                              readOnly: !canEdit,
+                            ),
+                          ),
+                          SizedBox(width: 10),
+                          SizedBox(
+                            width: queryData.size.width / 2 - 30,
+                            child: CustomTextField(
+                              controller: bedNumController,
+                              hintText: "bedNum",
+                              readOnly: !canEdit,
+                            ),
+                          ),
+                        ],
+                      ),
                     ],
-                    Row(
-                      children: [
-                        Flexible(
-                          child: CustomTextField(
-                            controller: genderController,
-                            hintText: "gender",
-                            readOnly: !canEdit,
-                          ),
-                        ),
-                        SizedBox(width: 10),
-                        SizedBox(
-                          width: queryData.size.width / 2 - 30,
-                          child: CustomTextField(
-                            controller: ageController,
-                            hintText: "age",
-                            readOnly: !canEdit,
-                            keyType: TextInputType.number,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 20),
-                    CustomTextField(
-                      controller: wardController,
-                      hintText: "ward",
-                      readOnly: !canEdit,
-                    ),
-                    SizedBox(height: 20),
-                    Row(
-                      children: [
-                        Flexible(
-                          child: CustomTextField(
-                            controller: roomNumController,
-                            hintText: "roomNum",
-                            readOnly: !canEdit,
-                          ),
-                        ),
-                        SizedBox(width: 10),
-                        SizedBox(
-                          width: queryData.size.width / 2 - 30,
-                          child: CustomTextField(
-                            controller: bedNumController,
-                            hintText: "bedNum",
-                            readOnly: !canEdit,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
+                  ),
                 ),
                 // SizedBox(height: 100),
                 if (isPortrait == false) ...[SizedBox(height: 40)],
@@ -212,21 +228,19 @@ class _PatChildWrapperState extends State<PatChildWrapper> {
                   CustomTextButton(
                       onTap: () async {
                         log("cliked update");
-                        PatientUser service = PatientUser();
-                        PatientUser val = PatientUser(
-                          name: nameController.text,
-                          gender: genderController.text,
-                          age: int.parse(ageController.text),
-                          ward: wardController.text,
-                          roomNum: roomNumController.text,
-                          bedNum: bedNumController.text,
-                        );
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Patient Updated'),
-                          ),
-                        );
-                        await service.updatePatient(val);
+                        if (_formKey.currentState!.validate()) {
+                          PatientUser service = PatientUser();
+                          PatientUser val = PatientUser(
+                            name: nameController.text,
+                            gender: genderController.text.trim(),
+                            age: int.parse(ageController.text.trim()),
+                            ward: wardController.text.trim(),
+                            roomNum: roomNumController.text.trim(),
+                            bedNum: bedNumController.text.trim(),
+                          );
+                          showSnackBar(context, "Patient Updated");
+                          await service.updatePatient(val);
+                        }
                       },
                       fullWidth: true,
                       children: SvgPicture.asset(kCheckUp),
@@ -237,6 +251,8 @@ class _PatChildWrapperState extends State<PatChildWrapper> {
                         AuthService service =
                             AuthService(FirebaseAuth.instance);
                         service.signOut(context);
+                        Navigator.pushNamedAndRemoveUntil(context, "/landing",
+                            (Route<dynamic> route) => false);
                       },
                       fullWidth: true,
                       children: SvgPicture.asset(kLogout),

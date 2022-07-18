@@ -6,6 +6,7 @@ import 'package:patient_app/components/CustomTextButton.dart';
 import 'package:patient_app/components/CustomTextField.dart';
 import 'package:patient_app/constants.dart';
 import 'package:patient_app/services/patientUser.dart';
+import 'package:patient_app/utils/showSnackBar.dart';
 
 class PatRegister extends StatefulWidget {
   const PatRegister({Key? key}) : super(key: key);
@@ -153,20 +154,15 @@ class _PatRegisterState extends State<PatRegister> {
                               if (_formKey.currentState!.validate()) {
                                 // If the form is valid, display a snackbar. In the real world,
                                 // you'd often call a server or save the information in a database.
-
                                 PatientUser val = PatientUser(
                                     name: nameController.text,
-                                    gender: genderController.text,
-                                    age: int.parse(ageController.text),
-                                    ward: wardController.text,
-                                    roomNum: roomNumController.text,
-                                    bedNum: bedNumNumController.text);
+                                    gender: genderController.text.trim(),
+                                    age: int.parse(ageController.text.trim()),
+                                    ward: wardController.text.trim(),
+                                    roomNum: roomNumController.text.trim(),
+                                    bedNum: bedNumNumController.text.trim());
                                 await service.addPatient(val);
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text('Patient Registered'),
-                                  ),
-                                );
+                                showSnackBar(context, "Patient Registered");
                                 Navigator.pushNamed(context, '/PatLanding');
                               }
                             },

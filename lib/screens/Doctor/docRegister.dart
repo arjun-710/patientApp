@@ -6,6 +6,7 @@ import 'package:patient_app/components/CustomTextButton.dart';
 import 'package:patient_app/components/CustomTextField.dart';
 import 'package:patient_app/constants.dart';
 import 'package:patient_app/services/doctorUser.dart';
+import 'package:patient_app/utils/showSnackBar.dart';
 
 class DocRegister extends StatefulWidget {
   const DocRegister({Key? key}) : super(key: key);
@@ -127,11 +128,7 @@ class _DocRegisterState extends State<DocRegister> {
                                     department: departmentController.text);
 
                                 await service.addDoctor(val);
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text('Doctor Registered'),
-                                  ),
-                                );
+                                showSnackBar(context, "Doctor Registered");
                                 Navigator.pushNamed(context, '/DocLanding');
                               }
                             },

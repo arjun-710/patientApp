@@ -5,6 +5,7 @@ import 'package:patient_app/components/BookTap.dart';
 import 'package:patient_app/components/Greetings.dart';
 import 'package:patient_app/components/InfoCard.dart';
 import 'package:patient_app/constants.dart';
+import 'package:patient_app/screens/Patient/components/patProfile.dart';
 import 'package:patient_app/screens/Patient/patLogin.dart';
 import 'package:patient_app/services/AuthService.dart';
 import 'package:provider/provider.dart';
@@ -30,9 +31,16 @@ class PatHome extends StatelessWidget {
                           padding: EdgeInsets.fromLTRB(30, 40, 30, 0),
                           child: Column(
                             children: [
-                              const Greetings(
+                              Greetings(
                                 greet: "Good morning",
                                 personName: "Ms Leny",
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const PatProfile()));
+                                },
                               ),
                               const SizedBox(height: 30),
                               const InfoCard(

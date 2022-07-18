@@ -2,17 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:patient_app/components/CustomText.dart';
 import 'package:patient_app/constants.dart';
-import 'package:patient_app/screens/Patient/components/patProfile.dart';
 
 class Greetings extends StatelessWidget {
   final String greet;
   final String personName;
+  final Function()? onTap;
 
-  const Greetings({
-    Key? key,
-    required this.greet,
-    required this.personName,
-  }) : super(key: key);
+  Greetings(
+      {Key? key,
+      required this.greet,
+      required this.personName,
+      required this.onTap})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,20 +25,11 @@ class Greetings extends StatelessWidget {
           children: [
             H3Text(text: greet),
             // Text(greet, style: TextStyle(fontSize: kh2size)),
-            H1Text(
-              text: personName,
-            )
+            H1Text(text: personName)
             // Text(personName, style: TextStyle(fontSize: kh1Size)),
           ],
         ),
-        GestureDetector(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const PatProfile()),
-              );
-            },
-            child: SvgPicture.asset(kProfile))
+        GestureDetector(onTap: onTap, child: SvgPicture.asset(kProfile))
       ],
     );
   }

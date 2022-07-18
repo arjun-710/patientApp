@@ -7,6 +7,7 @@ import 'package:patient_app/components/Greetings.dart';
 import 'package:patient_app/components/InfoCard.dart';
 import 'package:patient_app/constants.dart';
 import 'package:patient_app/screens/Doctor/components/PatList.dart';
+import 'package:patient_app/screens/Doctor/components/docProfile.dart';
 import 'package:patient_app/screens/Doctor/docLogin.dart';
 import 'package:patient_app/services/AuthService.dart';
 import 'package:provider/provider.dart';
@@ -56,9 +57,17 @@ class DocHome extends StatelessWidget {
                           padding: EdgeInsets.fromLTRB(30, 40, 30, 0),
                           child: Column(
                             children: [
-                              const Greetings(
+                              Greetings(
                                 greet: "Good morning,",
                                 personName: "Dr. Park",
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const DocProfile()),
+                                  );
+                                },
                               ),
                               const SizedBox(height: 30),
                               const InfoCard(
