@@ -23,6 +23,18 @@ class H2Text extends StatelessWidget {
   }
 }
 
+////////////////////////////////////////////////////
+class H225Text extends StatelessWidget {
+  final String text;
+  const H225Text({Key? key, required this.text}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(text,
+        style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600));
+  }
+}
+
 ///////////////////////////////////////////////////////////
 class H3Text extends StatelessWidget {
   final String text;

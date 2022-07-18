@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:patient_app/components/BookTap.dart';
+// import 'package:patient_app/components/BookTap.dart';
 import 'package:patient_app/components/CustomText.dart';
 import 'package:patient_app/components/Greetings.dart';
 import 'package:patient_app/components/InfoCard.dart';

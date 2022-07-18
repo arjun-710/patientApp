@@ -8,6 +8,7 @@ import 'package:patient_app/components/CustomTextField.dart';
 import 'package:patient_app/constants.dart';
 import 'package:patient_app/screens/Patient/patRegister.dart';
 import 'package:patient_app/services/AuthService.dart';
+import 'package:patient_app/utils/showSnackBar.dart';
 import 'package:provider/provider.dart';
 
 class PatLogin extends StatefulWidget {
@@ -223,11 +224,7 @@ class _PatLoginState extends State<PatLogin> {
           setState(() {
             otpcodesent = true;
           });
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('OTP Sent'),
-            ),
-          );
+          showSnackBar(context, "OTP Sent");
           log("otp sent");
         },
         codeAutoRetrievalTimeout: (String verificationID) {});

@@ -20,6 +20,9 @@ const String kLeft = 'assets/left.svg';
 const String kLogoUnnamed = 'assets/logo_unnamed.svg';
 const String kLogout = 'assets/logout.svg';
 const String kBed = 'assets/bed.svg';
+const String kFilter = 'assets/filter.svg';
+const String kAdd = 'assets/add.svg';
+const String kDelete = 'assets/delete.svg';
 
 const String kDocCircle = 'assets/docCircle.svg';
 const String kEmergencyWard = 'assets/emergencyWard.svg';

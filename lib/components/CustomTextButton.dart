@@ -34,6 +34,8 @@ class CustomTextButton extends StatelessWidget {
     checkWidth() {
       if (fullWidth) {
         return queryData.size.width;
+      } else if (label.length > 8) {
+        return queryData.size.width / 1.5;
       } else
         return queryData.size.width / 2;
     }
@@ -54,7 +56,11 @@ class CustomTextButton extends StatelessWidget {
           children: [
             children,
             _buildChild(),
-            Text(label, textAlign: TextAlign.center),
+            Text(
+              label,
+              textAlign: TextAlign.center,
+              style: TextStyle(fontWeight: kh4FontWeight, fontSize: kh4size),
+            ),
           ],
         ),
       ),
