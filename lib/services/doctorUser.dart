@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:patient_app/services/AuthService.dart';
+// import 'package:patient_app/services/patientUser.dart';
 
 class DoctorUser {
   String? name;
@@ -9,8 +10,15 @@ class DoctorUser {
   String? qualification;
   String? department;
   late AuthService service;
+  List<String>? patients;
+
   DoctorUser(
-      {this.name, this.gender, this.age, this.qualification, this.department}) {
+      {this.name,
+      this.gender,
+      this.age,
+      this.qualification,
+      this.department,
+      this.patients}) {
     service = AuthService(FirebaseAuth.instance);
   }
 
@@ -22,6 +30,7 @@ class DoctorUser {
     gender = data?['gender'];
     qualification = data?['qualification'];
     department = data?['department'];
+    patients = data?['patients']?.map((phone) => phone.toMap()).toList();
   }
 
   Map<String, dynamic> toMap() {
@@ -31,6 +40,7 @@ class DoctorUser {
       'gender': gender,
       'qualification': qualification,
       'department': department,
+      "patients": patients?.map((phone) => phone).toList(),
     };
   }
 
@@ -48,10 +58,10 @@ class DoctorUser {
     }
   }
 
-  addDoctor(DoctorUser patData) async {
+  addDoctor(DoctorUser docData) async {
     User user = service.user;
     try {
-      await db.collection("doctors").doc(user.phoneNumber).set(patData.toMap());
+      await db.collection("doctors").doc(user.phoneNumber).set(docData.toMap());
     } catch (e) {
       throw e;
     }
@@ -65,13 +75,20 @@ class DoctorUser {
     return snapshot;
   }
 
-  updateDoctor(DoctorUser patData) async {
+  updateDoctor(DoctorUser docData) async {
     // AuthService service = AuthService(FirebaseAuth.instance);
     User user = service.user;
     await db
         .collection("doctors")
         .doc(user.phoneNumber)
-        .update(patData.toMap());
+        .update(docData.toMap());
+  }
+
+  addPatientToDoctor(String patId) async {
+    User user = service.user;
+    await db.collection("doctors").doc(user.phoneNumber).update({
+      "patients": FieldValue.arrayUnion([patId])
+    });
   }
 
   Future<void> deleteDoctors() async {

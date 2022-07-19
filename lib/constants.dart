@@ -23,6 +23,7 @@ const String kBed = 'assets/bed.svg';
 const String kFilter = 'assets/filter.svg';
 const String kAdd = 'assets/add.svg';
 const String kDelete = 'assets/delete.svg';
+const String kPatient = 'assets/patient.svg';
 
 const String kDocCircle = 'assets/docCircle.svg';
 const String kEmergencyWard = 'assets/emergencyWard.svg';

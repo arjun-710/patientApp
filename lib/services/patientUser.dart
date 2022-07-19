@@ -35,12 +35,11 @@ class PatientUser {
     };
   }
 
-  Future<bool> checkPatExists(User user) async {
+  Future<bool> checkPatExists(String phoneNumber) async {
     try {
       // Get reference to Firestore collection
-      DocumentReference doc = FirebaseFirestore.instance
-          .collection('patients')
-          .doc(user.phoneNumber);
+      DocumentReference doc =
+          FirebaseFirestore.instance.collection('patients').doc(phoneNumber);
 
       var getDoc = await doc.get();
       return getDoc.exists;
