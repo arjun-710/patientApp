@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:patient_app/services/AuthService.dart';
@@ -11,6 +10,7 @@ class PatientUser {
   String? ward;
   String? phoneNum;
   String? bedNum;
+  Timestamp? createdAt;
   PatientUser(
       {this.name,
       this.gender,
@@ -18,7 +18,8 @@ class PatientUser {
       this.ward,
       this.roomNum,
       this.bedNum,
-      this.phoneNum});
+      this.phoneNum,
+      this.createdAt});
 
   final FirebaseFirestore db = FirebaseFirestore.instance;
 
@@ -30,6 +31,7 @@ class PatientUser {
     ward = data?['ward'];
     bedNum = data?['bedNum'];
     phoneNum = data?['phoneNum'];
+    createdAt = data?['createdAt'];
   }
 
   Map<String, dynamic> toMap() {
@@ -40,13 +42,13 @@ class PatientUser {
       'roomNum': roomNum,
       'ward': ward,
       'bedNum': bedNum,
-      'phoneNum': phoneNum
+      'phoneNum': phoneNum,
+      'createdAt': createdAt
     };
   }
 
   checkPatExists(String phoneNumber) async {
     try {
-      // Get reference to Firestore collection
       DocumentReference doc =
           FirebaseFirestore.instance.collection('patients').doc(phoneNumber);
 
@@ -60,7 +62,7 @@ class PatientUser {
     AuthService service = AuthService(FirebaseAuth.instance);
     User user = service.user;
     patData.phoneNum = user.phoneNumber;
-
+    patData.createdAt = Timestamp.now();
     try {
       await db
           .collection("patients")
@@ -80,7 +82,6 @@ class PatientUser {
   }
 
   updatePatient(PatientUser patData) async {
-    log("update Patient method");
     AuthService service = AuthService(FirebaseAuth.instance);
     User user = service.user;
     await db
@@ -93,22 +94,5 @@ class PatientUser {
     AuthService service = AuthService(FirebaseAuth.instance);
     User user = service.user;
     await db.collection("patients").doc(user.phoneNumber).delete();
-  }
-
-  PatientUser.fromDocumentSnapshot(DocumentSnapshot<Map<String, dynamic>> doc)
-      : name = doc.data()!["name"],
-        age = doc.data()!["age"],
-        gender = doc.data()!["gender"],
-        roomNum = doc.data()!["roomNum"],
-        ward = doc.data()!["ward"],
-        bedNum = doc.data()!["bedNum"],
-        phoneNum = doc.data()!["phoneNum"];
-
-  Future<List<PatientUser>> getPatients() async {
-    QuerySnapshot<Map<String, dynamic>> snapshot =
-        await db.collection("patients").get();
-    return snapshot.docs
-        .map((docSnapshot) => PatientUser.fromDocumentSnapshot(docSnapshot))
-        .toList();
   }
 }
