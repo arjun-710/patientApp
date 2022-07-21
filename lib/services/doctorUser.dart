@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:patient_app/services/AuthService.dart';
@@ -8,16 +6,13 @@ import 'package:patient_app/services/AuthService.dart';
 class AssignPatient {
   final String patId;
   final bool isAssigned;
+  final String patName;
 
-  AssignPatient({
-    required this.patId,
-    required this.isAssigned,
-  });
+  AssignPatient(
+      {required this.patId, required this.isAssigned, required this.patName});
 
-  Map<String, dynamic> toJson() => {
-        'patId': patId,
-        'isAssigned': isAssigned,
-      };
+  Map<String, dynamic> toJson() =>
+      {'patId': patId, 'isAssigned': isAssigned, 'patName': patName};
 }
 
 class DoctorUser {
@@ -27,7 +22,7 @@ class DoctorUser {
   String? qualification;
   String? department;
   late AuthService service;
-  List<String>? patients;
+  List<AssignPatient>? patients;
 
   DoctorUser(
       {this.name,
@@ -101,13 +96,15 @@ class DoctorUser {
         .update(docData.toMap());
   }
 
-  addPatientToDoctor(String patId) async {
+  addPatientToDoctor(String patId, String patName) async {
+    AssignPatient ap =
+        AssignPatient(patId: patId, isAssigned: true, patName: patName);
     User user = service.user;
-    await db.collection("doctors").doc(user.phoneNumber).update({
-      "patients": FieldValue.arrayUnion([
-        [patId]
-      ])
-    });
+    await db.collection("doctors").doc(user.phoneNumber).update(
+      {
+        "patients": FieldValue.arrayUnion([ap.toJson()])
+      },
+    );
   }
 
   Future<void> deleteDoctors() async {

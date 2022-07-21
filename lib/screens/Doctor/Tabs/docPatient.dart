@@ -55,11 +55,10 @@ class _DocPatientState extends State<DocPatient> {
                     ],
                   ),
                 ),
+                SizedBox(height: 40),
                 SizedBox(
-                  height: 100,
-                  child: AssignedPatients(),
-                ),
-                SizedBox(height: MediaQuery.of(context).size.height / 1.75),
+                    height: MediaQuery.of(context).size.height / 1.75,
+                    child: AssignedPatients()),
                 CustomTextButton(
                     onTap: () {
                       Navigator.push(

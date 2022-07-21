@@ -64,6 +64,7 @@ const kMedCardColor = Color(0xffFEECE2);
 const kNavColor = Color(0xffAADDE5);
 const k3Color = Color(0xffF6B8BF);
 const kCheckUpPat = Color(0xffEFF6FC);
+const kCream = Color(0xffFEECE2);
 
 const kPrimaryColor = Color(0xffAADDE5);
 const kPatCardColor = Color(0xffFBE0E3);

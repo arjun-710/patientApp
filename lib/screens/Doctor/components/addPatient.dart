@@ -63,18 +63,21 @@ class _AddPatientState extends State<AddPatient> {
               CustomTextButton(
                   onTap: () async {
                     if (_formKey.currentState!.validate()) {
-                      await docService.addPatientToDoctor(
-                          "+${regionController.text}${phoneController.text}");
-                      showSnackBar(context, "patient added");
+                      DocumentSnapshot ds = await FirebaseFirestore.instance
+                          .collection("patients")
+                          .doc(
+                              "+${regionController.text}${phoneController.text}")
+                          .get();
+                      Map<String, dynamic> data =
+                          ds.data() as Map<String, dynamic>;
 
-                      DocumentSnapshot<Object?> data =
-                          await docService.getDoctor();
-                      log(data.data().toString());
-                    }
-                    bool didPat = await patService.checkPatExists(
-                        "+${regionController.text}${phoneController.text}");
-                    if (didPat) {
-                      log("pat exist");
+                      if (ds.exists) {
+                        await docService.addPatientToDoctor(
+                            "+${regionController.text}${phoneController.text}",
+                            data["name"] as String);
+                        showSnackBar(context, "patient added");
+                      } else
+                        showSnackBar(context, "patient does not exists");
                     } else {
                       showSnackBar(context, "Patient does not exist");
                     }

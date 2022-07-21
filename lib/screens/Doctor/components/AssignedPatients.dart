@@ -37,8 +37,58 @@ class AssignedPatients extends StatelessWidget {
                 snapshot.data!.data() as Map<String, dynamic>;
             List<dynamic> patients =
                 data["patients"] ?? ["no patient assigned"];
-            return Row(
-                children: [for (var name in patients) Text(name.toString())]);
+            return ListView.separated(
+              itemCount: patients.length,
+              separatorBuilder: (BuildContext context, int index) =>
+                  const Divider(),
+              itemBuilder: (BuildContext context, int index) {
+                var data = patients[index];
+                return Container(
+                  decoration: BoxDecoration(
+                      color: kCream,
+                      borderRadius: BorderRadius.circular(kBorderRadius)),
+                  child: ListTile(
+                    onTap: () {
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: (context) =>
+                      //             Comment(id: document.id, data: data)));
+                    },
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(kBorderRadius),
+                    ),
+                    leading: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                            padding: EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius:
+                                    BorderRadius.circular(kBorderRadius)),
+                            child: SvgPicture.asset(kCheckUp))
+                      ],
+                    ),
+                    minLeadingWidth: 20,
+                    title: Padding(
+                      padding: EdgeInsets.only(left: 5, bottom: 5),
+                      child: H3Text(text: data["patName"]),
+                    ),
+                    subtitle: Row(
+                      children: [
+                        CustomText(data["patId"]),
+                      ],
+                    ),
+                    trailing: SvgPicture.asset(kRight),
+                  ),
+                );
+
+                //  ListTile(
+                //   title: Text(patients[index]["patName"].toString()),
+                // );
+              },
+            );
           }
         }
 
