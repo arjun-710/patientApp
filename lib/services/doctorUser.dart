@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:patient_app/services/AuthService.dart';
@@ -95,20 +97,5 @@ class DoctorUser {
     // AuthService service = AuthService(FirebaseAuth.instance);
     User user = service.user;
     await db.collection("doctors").doc(user.phoneNumber).delete();
-  }
-
-  DoctorUser.fromDocumentSnapshot(DocumentSnapshot<Map<String, dynamic>> doc)
-      : name = doc.data()!["name"],
-        age = doc.data()!["age"],
-        gender = doc.data()!["gender"],
-        qualification = doc.data()!["qualification"],
-        department = doc.data()!["department"];
-
-  Future<List<DoctorUser>> getDoctors() async {
-    QuerySnapshot<Map<String, dynamic>> snapshot =
-        await db.collection("doctors").get();
-    return snapshot.docs
-        .map((docSnapshot) => DoctorUser.fromDocumentSnapshot(docSnapshot))
-        .toList();
   }
 }

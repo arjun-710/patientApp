@@ -9,9 +9,16 @@ class PatientUser {
   String? gender;
   String? roomNum;
   String? ward;
+  String? phoneNum;
   String? bedNum;
   PatientUser(
-      {this.name, this.gender, this.age, this.ward, this.roomNum, this.bedNum});
+      {this.name,
+      this.gender,
+      this.age,
+      this.ward,
+      this.roomNum,
+      this.bedNum,
+      this.phoneNum});
 
   final FirebaseFirestore db = FirebaseFirestore.instance;
 
@@ -22,6 +29,7 @@ class PatientUser {
     roomNum = data?['roomNum'];
     ward = data?['ward'];
     bedNum = data?['bedNum'];
+    phoneNum = data?['phoneNum'];
   }
 
   Map<String, dynamic> toMap() {
@@ -32,6 +40,7 @@ class PatientUser {
       'roomNum': roomNum,
       'ward': ward,
       'bedNum': bedNum,
+      'phoneNum': phoneNum
     };
   }
 
@@ -51,6 +60,8 @@ class PatientUser {
   addPatient(PatientUser patData) async {
     AuthService service = AuthService(FirebaseAuth.instance);
     User user = service.user;
+    patData.phoneNum = user.phoneNumber;
+
     try {
       await db
           .collection("patients")
@@ -91,7 +102,8 @@ class PatientUser {
         gender = doc.data()!["gender"],
         roomNum = doc.data()!["roomNum"],
         ward = doc.data()!["ward"],
-        bedNum = doc.data()!["bedNum"];
+        bedNum = doc.data()!["bedNum"],
+        phoneNum = doc.data()!["phoneNum"];
 
   Future<List<PatientUser>> getPatients() async {
     QuerySnapshot<Map<String, dynamic>> snapshot =

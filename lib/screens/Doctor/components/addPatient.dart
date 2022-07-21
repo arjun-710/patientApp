@@ -1,11 +1,9 @@
 import 'dart:developer';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:patient_app/components/CustomText.dart';
 import 'package:patient_app/components/CustomTextButton.dart';
-import 'package:patient_app/components/CustomTextField.dart';
 import 'package:patient_app/components/phoneNumberTextField.dart';
 import 'package:patient_app/constants.dart';
 import 'package:patient_app/services/doctorUser.dart';
@@ -65,9 +63,17 @@ class _AddPatientState extends State<AddPatient> {
               CustomTextButton(
                   onTap: () async {
                     if (_formKey.currentState!.validate()) {
+                      // AssignedPatients ap = AssignedPatients(
+                      //     patId:
+                      //         "+${regionController.text}${phoneController.text}",
+                      //     isAssigned: true);
                       await docService.addPatientToDoctor(
                           "+${regionController.text}${phoneController.text}");
                       showSnackBar(context, "patient added");
+
+                      DocumentSnapshot<Object?> data =
+                          await docService.getDoctor();
+                      log(data.data().toString());
                     }
                     bool didPat = await patService.checkPatExists(
                         "+${regionController.text}${phoneController.text}");

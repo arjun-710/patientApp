@@ -27,6 +27,12 @@ class _DocLoginState extends State<DocLogin> {
   bool otpcodesent = false;
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final authService = Provider.of<AuthService>(context);
     return StreamBuilder<User?>(

@@ -4,7 +4,11 @@ import 'package:patient_app/components/CustomTextButton.dart';
 // import 'package:flutter_svg/flutter_svg.dart';
 // import 'package:patient_app/components/CustomText.dart';
 import 'package:patient_app/constants.dart';
+import 'package:patient_app/screens/Doctor/components/PatList.dart';
 import 'package:patient_app/screens/Doctor/components/addPatient.dart';
+import 'package:patient_app/screens/Doctor/components/assignedPatients.dart';
+import 'package:patient_app/services/doctorUser.dart';
+// import 'package:patient_app/screens/Doctor/components/assignedPatients.dart';
 import 'package:patient_app/services/patientUser.dart';
 
 class DocPatient extends StatefulWidget {
@@ -50,6 +54,10 @@ class _DocPatientState extends State<DocPatient> {
                               fontSize: 28, fontWeight: kh3FontWeight)),
                     ],
                   ),
+                ),
+                SizedBox(
+                  height: 100,
+                  child: AssignedPatients(),
                 ),
                 SizedBox(height: MediaQuery.of(context).size.height / 1.75),
                 CustomTextButton(
