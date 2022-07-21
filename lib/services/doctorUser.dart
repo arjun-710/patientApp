@@ -5,6 +5,21 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:patient_app/services/AuthService.dart';
 // import 'package:patient_app/services/patientUser.dart';
 
+class AssignPatient {
+  final String patId;
+  final bool isAssigned;
+
+  AssignPatient({
+    required this.patId,
+    required this.isAssigned,
+  });
+
+  Map<String, dynamic> toJson() => {
+        'patId': patId,
+        'isAssigned': isAssigned,
+      };
+}
+
 class DoctorUser {
   String? name;
   int? age;
@@ -89,7 +104,9 @@ class DoctorUser {
   addPatientToDoctor(String patId) async {
     User user = service.user;
     await db.collection("doctors").doc(user.phoneNumber).update({
-      "patients": FieldValue.arrayUnion([patId])
+      "patients": FieldValue.arrayUnion([
+        [patId]
+      ])
     });
   }
 

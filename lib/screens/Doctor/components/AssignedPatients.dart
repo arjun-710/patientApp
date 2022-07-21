@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -33,12 +32,14 @@ class AssignedPatients extends StatelessWidget {
         }
 
         if (snapshot.connectionState == ConnectionState.done) {
-          Map<String, dynamic> data =
-              snapshot.data!.data() as Map<String, dynamic>;
-          List<dynamic> patients = data["patients"];
-
-          return Row(
-              children: [for (var name in patients) Text(name.toString())]);
+          if (snapshot.hasData && snapshot.data != null) {
+            Map<String, dynamic> data =
+                snapshot.data!.data() as Map<String, dynamic>;
+            List<dynamic> patients =
+                data["patients"] ?? ["no patient assigned"];
+            return Row(
+                children: [for (var name in patients) Text(name.toString())]);
+          }
         }
 
         return Text("loading");

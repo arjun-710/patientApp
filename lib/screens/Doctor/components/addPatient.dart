@@ -63,10 +63,6 @@ class _AddPatientState extends State<AddPatient> {
               CustomTextButton(
                   onTap: () async {
                     if (_formKey.currentState!.validate()) {
-                      // AssignedPatients ap = AssignedPatients(
-                      //     patId:
-                      //         "+${regionController.text}${phoneController.text}",
-                      //     isAssigned: true);
                       await docService.addPatientToDoctor(
                           "+${regionController.text}${phoneController.text}");
                       showSnackBar(context, "patient added");
