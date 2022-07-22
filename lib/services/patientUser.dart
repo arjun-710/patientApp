@@ -3,6 +3,21 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:patient_app/services/AuthService.dart';
 
+class Comment {
+  final String comment;
+  final String byDoc;
+
+  Comment({
+    required this.comment,
+    required this.byDoc,
+  });
+
+  Map<String, dynamic> toJson() => {
+        'comment': comment,
+        'byDoc': byDoc,
+      };
+}
+
 class PatientUser {
   String? name;
   int? age;
@@ -11,6 +26,7 @@ class PatientUser {
   String? ward;
   String? phoneNum;
   String? bedNum;
+  List<Comment>? comments;
   PatientUser(
       {this.name,
       this.gender,
@@ -30,6 +46,7 @@ class PatientUser {
     ward = data?['ward'];
     bedNum = data?['bedNum'];
     phoneNum = data?['phoneNum'];
+    comments = data?['patients']?.map((comment) => comment.toMap()).toList();
   }
 
   Map<String, dynamic> toMap() {
@@ -40,7 +57,8 @@ class PatientUser {
       'roomNum': roomNum,
       'ward': ward,
       'bedNum': bedNum,
-      'phoneNum': phoneNum
+      'phoneNum': phoneNum,
+      'comments': comments?.map((comment) => comment).toList(),
     };
   }
 

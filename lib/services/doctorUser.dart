@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:patient_app/services/AuthService.dart';
+import 'package:patient_app/services/patientUser.dart';
 // import 'package:patient_app/services/patientUser.dart';
 
 class AssignPatient {
@@ -104,9 +105,18 @@ class DoctorUser {
   addPatientToDoctor(String patId) async {
     User user = service.user;
     await db.collection("doctors").doc(user.phoneNumber).update({
-      "patients": FieldValue.arrayUnion([
-        [patId]
-      ])
+      "patients": FieldValue.arrayUnion([patId])
+    });
+  }
+
+  addCommentToPatient(String comment, String id) async {
+    User user = service.user;
+    log(comment);
+    log(id);
+    final Comment _comment =
+        Comment(comment: comment, byDoc: user.phoneNumber.toString());
+    await db.collection("patients").doc(id).update({
+      "comments": FieldValue.arrayUnion([_comment.toJson()])
     });
   }
 

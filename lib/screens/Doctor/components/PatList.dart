@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:patient_app/components/CustomText.dart';
 import 'package:patient_app/constants.dart';
-import 'package:patient_app/screens/Doctor/components/comment.dart';
+import 'package:patient_app/screens/Doctor/components/ViewComment.dart';
 
 class PatList extends StatelessWidget {
   const PatList({Key? key}) : super(key: key);
@@ -35,8 +35,7 @@ class PatList extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            Comment(id: document.id, data: data)));
+                        builder: (context) => ViewComments(id: document.id)));
               },
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(kBorderRadius),
