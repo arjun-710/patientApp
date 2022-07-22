@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -33,10 +34,12 @@ class AssignedPatients extends StatelessWidget {
 
         if (snapshot.connectionState == ConnectionState.done) {
           if (snapshot.hasData && snapshot.data != null) {
-            Map<String, dynamic> data =
+            Map<String, dynamic>? data =
                 snapshot.data!.data() as Map<String, dynamic>;
-            List<dynamic> patients =
-                data["patients"] ?? ["no patient assigned"];
+            List<dynamic> patients = [];
+            if (data.isNotEmpty) {
+              patients = ((data['patients'] ?? []) as List);
+            }
             return ListView.separated(
               itemCount: patients.length,
               separatorBuilder: (BuildContext context, int index) =>
