@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:patient_app/services/AuthService.dart';
+import 'package:patient_app/services/patientUser.dart';
 
 class AssignPatient {
   final String patId;
@@ -112,11 +113,28 @@ class DoctorUser {
         patName: patName,
         createdAt: Timestamp.now());
     User user = service.user;
-    await db.collection("doctors").doc(user.phoneNumber).update(
-      {
-        "patients": FieldValue.arrayUnion([ap.toJson()])
-      },
-    );
+    await db.collection("doctors").doc(user.phoneNumber).update({
+      "patients": FieldValue.arrayUnion([patId])
+    });
+  }
+
+  addCommentToPatient(String comment, String id) async {
+    User user = service.user;
+
+    String docName = "";
+    await db
+        .collection("doctors")
+        .doc(user.phoneNumber)
+        .get()
+        .then((value) => {docName = value.data()!["name"].toString()});
+
+    // String docName = docSnap.data()!["name"].toString();
+    log(comment);
+    log(id);
+    final Comment _comment = Comment(comment: comment, byDoc: docName);
+    await db.collection("patients").doc(id).update({
+      "comments": FieldValue.arrayUnion([_comment.toJson()])
+    });
   }
 
   Future<void> deleteDoctors() async {
