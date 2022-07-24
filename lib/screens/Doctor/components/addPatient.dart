@@ -1,11 +1,13 @@
 import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:patient_app/components/CustomText.dart';
 import 'package:patient_app/components/CustomTextButton.dart';
 import 'package:patient_app/components/phoneNumberTextField.dart';
 import 'package:patient_app/constants.dart';
+import 'package:patient_app/services/AuthService.dart';
 import 'package:patient_app/services/doctorUser.dart';
 import 'package:patient_app/services/patientUser.dart';
 import 'package:patient_app/utils/showSnackBar.dart';
@@ -63,20 +65,55 @@ class _AddPatientState extends State<AddPatient> {
               CustomTextButton(
                   onTap: () async {
                     if (_formKey.currentState!.validate()) {
-                      await docService.addPatientToDoctor(
-                          "+${regionController.text}${phoneController.text}");
-                      showSnackBar(context, "patient added");
+                      DocumentSnapshot ds = await FirebaseFirestore.instance
+                          .collection("patients")
+                          .doc(
+                              "+${regionController.text}${phoneController.text}")
+                          .get();
+                      Map<String, dynamic> data =
+                          ds.data() as Map<String, dynamic>;
 
-                      DocumentSnapshot<Object?> data =
-                          await docService.getDoctor();
-                      log(data.data().toString());
-                    }
-                    bool didPat = await patService.checkPatExists(
-                        "+${regionController.text}${phoneController.text}");
-                    if (didPat) {
-                      log("pat exist");
-                    } else {
-                      showSnackBar(context, "Patient does not exist");
+                      if (ds.exists) {
+                        AuthService service =
+                            AuthService(FirebaseAuth.instance);
+                        User user = service.user;
+                        FirebaseFirestore firebase = FirebaseFirestore.instance;
+                        firebase
+                            .collection("doctors")
+                            .doc(user
+                                .phoneNumber) // Document which contains the products array
+                            .get()
+                            .then((doc) async {
+                          var patDat = (doc.data()?['patients'] ?? []) as List;
+                          if (patDat.length > 0) {
+                            var prodList = doc
+                                .data()?["patients"]
+                                .where(
+                                    (x) => // Traversing the data of the document to the products array
+                                        x?["patId"] ==
+                                        "+${regionController.text}${phoneController.text}" // Predicate to filter the array by
+                                    )
+                                .toList();
+
+                            if (prodList.length > 0) {
+                              showSnackBar(
+                                  context, "patient is already assigned");
+                            } else {
+                              await docService.addPatientToDoctor(
+                                  "+${regionController.text}${phoneController.text}",
+                                  data["name"] as String);
+                              showSnackBar(context, "patient added");
+                            }
+                          } else {
+                            await docService.addPatientToDoctor(
+                                "+${regionController.text}${phoneController.text}",
+                                data["name"] as String);
+                            showSnackBar(context, "patient added");
+                          }
+                        });
+                      } else {
+                        showSnackBar(context, "pat does not exists");
+                      }
                     }
                   },
                   fullWidth: true,

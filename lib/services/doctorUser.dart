@@ -1,23 +1,25 @@
-import 'dart:developer';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:patient_app/services/AuthService.dart';
 import 'package:patient_app/services/patientUser.dart';
-// import 'package:patient_app/services/patientUser.dart';
 
 class AssignPatient {
   final String patId;
   final bool isAssigned;
+  final String patName;
+  final Timestamp? createdAt;
 
-  AssignPatient({
-    required this.patId,
-    required this.isAssigned,
-  });
+  AssignPatient(
+      {required this.patId,
+      required this.isAssigned,
+      required this.patName,
+      this.createdAt});
 
   Map<String, dynamic> toJson() => {
         'patId': patId,
         'isAssigned': isAssigned,
+        'patName': patName,
+        'createdAt': createdAt
       };
 }
 
@@ -27,8 +29,9 @@ class DoctorUser {
   String? gender;
   String? qualification;
   String? department;
+  Timestamp? createdAt;
   late AuthService service;
-  List<String>? patients;
+  List<AssignPatient>? patients;
 
   DoctorUser(
       {this.name,
@@ -36,7 +39,8 @@ class DoctorUser {
       this.age,
       this.qualification,
       this.department,
-      this.patients}) {
+      this.patients,
+      this.createdAt}) {
     service = AuthService(FirebaseAuth.instance);
   }
 
@@ -48,6 +52,7 @@ class DoctorUser {
     gender = data?['gender'];
     qualification = data?['qualification'];
     department = data?['department'];
+    createdAt = data?['createdAt'];
     patients = data?['patients']?.map((phone) => phone.toMap()).toList();
   }
 
@@ -58,13 +63,13 @@ class DoctorUser {
       'gender': gender,
       'qualification': qualification,
       'department': department,
+      'createdAt': createdAt,
       "patients": patients?.map((phone) => phone).toList(),
     };
   }
 
   Future<bool> checkDocExists(User user) async {
     try {
-      // Get reference to Firestore collection
       DocumentReference doc = FirebaseFirestore.instance
           .collection('doctors')
           .doc(user.phoneNumber);
@@ -77,6 +82,7 @@ class DoctorUser {
   }
 
   addDoctor(DoctorUser docData) async {
+    docData.createdAt = Timestamp.now();
     User user = service.user;
     try {
       await db.collection("doctors").doc(user.phoneNumber).set(docData.toMap());
@@ -86,7 +92,6 @@ class DoctorUser {
   }
 
   Future<DocumentSnapshot<Object?>> getDoctor() async {
-    // AuthService service = AuthService(FirebaseAuth.instance);
     User user = service.user;
     DocumentSnapshot snapshot =
         await db.collection("doctors").doc(user.phoneNumber).get();
@@ -94,7 +99,6 @@ class DoctorUser {
   }
 
   updateDoctor(DoctorUser docData) async {
-    // AuthService service = AuthService(FirebaseAuth.instance);
     User user = service.user;
     await db
         .collection("doctors")
@@ -102,7 +106,12 @@ class DoctorUser {
         .update(docData.toMap());
   }
 
-  addPatientToDoctor(String patId) async {
+  addPatientToDoctor(String patId, String patName) async {
+    AssignPatient ap = AssignPatient(
+        patId: patId,
+        isAssigned: true,
+        patName: patName,
+        createdAt: Timestamp.now());
     User user = service.user;
     await db.collection("doctors").doc(user.phoneNumber).update({
       "patients": FieldValue.arrayUnion([patId])
@@ -129,7 +138,6 @@ class DoctorUser {
   }
 
   Future<void> deleteDoctors() async {
-    // AuthService service = AuthService(FirebaseAuth.instance);
     User user = service.user;
     await db.collection("doctors").doc(user.phoneNumber).delete();
   }

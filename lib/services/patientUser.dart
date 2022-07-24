@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:patient_app/services/AuthService.dart';
@@ -27,6 +26,7 @@ class PatientUser {
   String? phoneNum;
   String? bedNum;
   List<Comment>? comments;
+  Timestamp? createdAt;
   PatientUser(
       {this.name,
       this.gender,
@@ -34,7 +34,8 @@ class PatientUser {
       this.ward,
       this.roomNum,
       this.bedNum,
-      this.phoneNum});
+      this.phoneNum,
+      this.createdAt});
 
   final FirebaseFirestore db = FirebaseFirestore.instance;
 
@@ -47,6 +48,7 @@ class PatientUser {
     bedNum = data?['bedNum'];
     phoneNum = data?['phoneNum'];
     comments = data?['patients']?.map((comment) => comment.toMap()).toList();
+    createdAt = data?['createdAt'];
   }
 
   Map<String, dynamic> toMap() {
@@ -59,17 +61,16 @@ class PatientUser {
       'bedNum': bedNum,
       'phoneNum': phoneNum,
       'comments': comments?.map((comment) => comment).toList(),
+      'createdAt': createdAt
     };
   }
 
-  Future<bool> checkPatExists(String phoneNumber) async {
+  checkPatExists(String phoneNumber) async {
     try {
-      // Get reference to Firestore collection
       DocumentReference doc =
           FirebaseFirestore.instance.collection('patients').doc(phoneNumber);
 
-      var getDoc = await doc.get();
-      return getDoc.exists;
+      return await doc.get();
     } catch (e) {
       throw e;
     }
@@ -79,7 +80,7 @@ class PatientUser {
     AuthService service = AuthService(FirebaseAuth.instance);
     User user = service.user;
     patData.phoneNum = user.phoneNumber;
-
+    patData.createdAt = Timestamp.now();
     try {
       await db
           .collection("patients")
@@ -99,7 +100,6 @@ class PatientUser {
   }
 
   updatePatient(PatientUser patData) async {
-    log("update Patient method");
     AuthService service = AuthService(FirebaseAuth.instance);
     User user = service.user;
     await db
@@ -112,22 +112,5 @@ class PatientUser {
     AuthService service = AuthService(FirebaseAuth.instance);
     User user = service.user;
     await db.collection("patients").doc(user.phoneNumber).delete();
-  }
-
-  PatientUser.fromDocumentSnapshot(DocumentSnapshot<Map<String, dynamic>> doc)
-      : name = doc.data()!["name"],
-        age = doc.data()!["age"],
-        gender = doc.data()!["gender"],
-        roomNum = doc.data()!["roomNum"],
-        ward = doc.data()!["ward"],
-        bedNum = doc.data()!["bedNum"],
-        phoneNum = doc.data()!["phoneNum"];
-
-  Future<List<PatientUser>> getPatients() async {
-    QuerySnapshot<Map<String, dynamic>> snapshot =
-        await db.collection("patients").get();
-    return snapshot.docs
-        .map((docSnapshot) => PatientUser.fromDocumentSnapshot(docSnapshot))
-        .toList();
   }
 }
