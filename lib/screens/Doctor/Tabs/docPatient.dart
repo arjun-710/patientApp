@@ -39,16 +39,17 @@ class _DocPatientState extends State<DocPatient> {
                     height: MediaQuery.of(context).size.height / 1.75,
                     child: AssignedPatients()),
                 CustomTextButton(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const AddPatient()),
-                      );
-                    },
-                    fullWidth: true,
-                    label: "Add Patient",
-                    children: SvgPicture.asset(kAdd))
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const AddPatient()),
+                    );
+                  },
+                  fullWidth: true,
+                  label: "Add Patient",
+                  children: SvgPicture.asset(kAdd),
+                )
               ],
             ),
           ),

@@ -23,6 +23,25 @@ class AssignPatient {
       };
 }
 
+class Medicine {
+  final String medName;
+  final int quantity;
+  final int frequency;
+
+  Medicine(
+      {required this.medName, required this.quantity, required this.frequency});
+
+  Map<String, dynamic> toJson() => {
+        'medName': medName,
+        'quantity': quantity,
+        'frequency': frequency,
+      };
+  factory Medicine.fromJson(Map<String, dynamic> json) => Medicine(
+      medName: json["medName"],
+      quantity: json["quantity"],
+      frequency: json["frequency"]);
+}
+
 class DoctorUser {
   String? name;
   int? age;
@@ -113,9 +132,11 @@ class DoctorUser {
         patName: patName,
         createdAt: Timestamp.now());
     User user = service.user;
-    await db.collection("doctors").doc(user.phoneNumber).update({
-      "patients": FieldValue.arrayUnion([patId])
-    });
+    await db.collection("doctors").doc(user.phoneNumber).update(
+      {
+        "patients": FieldValue.arrayUnion([ap.toJson()])
+      },
+    );
   }
 
   addCommentToPatient(String comment, String id) async {
@@ -129,8 +150,6 @@ class DoctorUser {
         .then((value) => {docName = value.data()!["name"].toString()});
 
     // String docName = docSnap.data()!["name"].toString();
-    log(comment);
-    log(id);
     final Comment _comment = Comment(comment: comment, byDoc: docName);
     await db.collection("patients").doc(id).update({
       "comments": FieldValue.arrayUnion([_comment.toJson()])

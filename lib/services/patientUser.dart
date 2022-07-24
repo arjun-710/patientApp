@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:patient_app/services/AuthService.dart';
+import 'package:patient_app/services/doctorUser.dart';
 
 class Comment {
   final String comment;
@@ -106,6 +109,42 @@ class PatientUser {
         .collection("patients")
         .doc(user.phoneNumber)
         .update(patData.toMap());
+  }
+
+  removePrescription(List medicines, String patId) async {
+    AuthService service = AuthService(FirebaseAuth.instance);
+    User user = service.user;
+    String prescriptionId = "${user.phoneNumber}${patId}";
+
+    // Medicine med = Medicine(
+    //     medName: medName,
+    //     quantity: int.parse(quantity),
+    //     frequency: int.parse(frequency));
+    await db
+        .collection("prescriptions")
+        .doc(prescriptionId)
+        .set({"medicines": medicines});
+  }
+
+  addPrescription(
+      String medName, int quantity, int frequency, String patId) async {
+    AuthService service = AuthService(FirebaseAuth.instance);
+    User user = service.user;
+    String prescriptionId = "${user.phoneNumber}${patId}";
+
+    Medicine med = Medicine(
+      frequency: frequency,
+      medName: medName,
+      quantity: quantity,
+    );
+    await db.collection("patients").doc(patId).update(
+      {
+        "prescriptions": FieldValue.arrayUnion([prescriptionId])
+      },
+    );
+    await db.collection("prescriptions").doc(prescriptionId).set({
+      "medicines": FieldValue.arrayUnion([med.toJson()])
+    }, SetOptions(merge: true));
   }
 
   Future<void> deletePatients() async {
