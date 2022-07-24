@@ -20,6 +20,24 @@ class Comment {
       };
 }
 
+class LinkType {
+  final String linkUrl;
+  final String type;
+  final String name;
+
+  LinkType({
+    required this.linkUrl,
+    required this.type,
+    required this.name,
+  });
+
+  Map<String, dynamic> toJson() => {
+        'linkUrl': linkUrl,
+        'type': type,
+        'name': name,
+      };
+}
+
 class PatientUser {
   String? name;
   int? age;
@@ -109,6 +127,16 @@ class PatientUser {
         .collection("patients")
         .doc(user.phoneNumber)
         .update(patData.toMap());
+  }
+
+  addLink(String storageLink, String type, String name, String patId) async {
+    LinkType link = LinkType(linkUrl: storageLink, type: type, name: name);
+    log('running addLink');
+    await db.collection("patients").doc(patId).update(
+      {
+        "records": FieldValue.arrayUnion([link.toJson()])
+      },
+    );
   }
 
   removePrescription(List medicines, String patId) async {

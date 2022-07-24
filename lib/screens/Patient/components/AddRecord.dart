@@ -1,27 +1,35 @@
 import 'dart:developer';
 
 import 'package:file_picker/file_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'dart:io' as i;
+import 'package:mime/mime.dart';
+import 'package:patient_app/services/AuthService.dart';
+import 'package:patient_app/services/patientUser.dart';
 
 import 'package:patient_app/utils/showSnackBar.dart';
 
 class AddRecord extends StatefulWidget {
-  const AddRecord({Key? key}) : super(key: key);
+  final String? patId;
+  const AddRecord({Key? key, required this.patId}) : super(key: key);
 
   @override
-  State<AddRecord> createState() => _AddRecordState();
+  State<AddRecord> createState() => _AddRecordState(patId);
 }
 
 class _AddRecordState extends State<AddRecord> {
+  _AddRecordState(this.patId);
   PlatformFile? pickedFile;
+  String? patId;
   UploadTask? uploadTask;
   bool upload = false;
   late String s;
+  late var fileType;
 
   Future uploadFile() async {
-    final path = 'files/${pickedFile!.name}';
+    final path = '$patId/${pickedFile!.name}';
     final i.File currentFile = i.File(pickedFile!.path!);
 
     // log(currentFile.toString());
@@ -39,7 +47,18 @@ class _AddRecordState extends State<AddRecord> {
 
     final urlDownload = await snapshshot.ref.getDownloadURL();
 
+    PatientUser user = PatientUser();
+
     print('download: $urlDownload');
+
+    try {
+      log('inside try');
+      await user.addLink(urlDownload.toString(), fileType[0].toString(),
+          pickedFile!.name.toString(), patId.toString());
+      showSnackBar(context, 'Added to records');
+    } catch (e) {
+      throw e;
+    }
 
     setState(() {
       uploadTask = null;
@@ -53,7 +72,8 @@ class _AddRecordState extends State<AddRecord> {
     setState(() {
       pickedFile = result.files.first;
     });
-    s = pickedFile!.name;
+    String? mimeStr = lookupMimeType(pickedFile!.name);
+    fileType = mimeStr?.split('/');
   }
 
   @override
@@ -64,7 +84,10 @@ class _AddRecordState extends State<AddRecord> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              if (pickedFile != null)
+              if (pickedFile != null &&
+                  (fileType[1] == "jpg" ||
+                      fileType[1] == "jpeg" ||
+                      fileType[1] == "png")) ...[
                 Expanded(
                   child: Container(
                     color: Colors.blue,
@@ -75,6 +98,11 @@ class _AddRecordState extends State<AddRecord> {
                     ),
                   ),
                 ),
+              ] else ...[
+                Center(
+                  child: Text(pickedFile?.name ?? " "),
+                ),
+              ],
               // else
               //   Expanded(child: Text(pickedFile!.name)),
               SizedBox(
