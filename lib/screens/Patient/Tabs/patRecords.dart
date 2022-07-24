@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:patient_app/screens/Patient/components/AddRecord.dart';
 
 class PatRecords extends StatelessWidget {
   @override
@@ -10,9 +11,17 @@ class PatRecords extends StatelessWidget {
         height: 300,
         width: 300,
         color: Colors.cyan,
-        child: Text(
-          style: TextStyle(color: Colors.white, fontSize: 30),
-          "PatRecords",
+        child: GestureDetector(
+          child: Text(
+            style: TextStyle(color: Colors.white, fontSize: 30),
+            "PatRecords",
+          ),
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const AddRecord()),
+            );
+          },
         ),
       )),
     );
