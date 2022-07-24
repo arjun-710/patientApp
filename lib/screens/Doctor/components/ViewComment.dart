@@ -2,10 +2,12 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:patient_app/components/CommentCard.dart';
 import 'package:patient_app/components/CustomText.dart';
 import 'package:patient_app/components/CustomTextButton.dart';
+import 'package:patient_app/components/CustomTextField.dart';
 import 'package:patient_app/constants.dart';
 import 'package:patient_app/services/doctorUser.dart';
 import 'package:patient_app/services/patientUser.dart';
@@ -31,86 +33,97 @@ class _ViewCommentsState extends State<ViewComments> {
         FirebaseFirestore.instance.collection('patients');
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            FutureBuilder<DocumentSnapshot>(
-              future: patients.doc(widget.id).get(),
-              builder: (BuildContext context,
-                  AsyncSnapshot<DocumentSnapshot> snapshot) {
-                if (snapshot.hasError) {
-                  return Text("Something went wrong");
-                }
-
-                if (snapshot.hasData && !snapshot.data!.exists) {
-                  return Text("Document does not exist");
-                }
-
-                if (snapshot.connectionState == ConnectionState.done) {
-                  if (snapshot.hasData && snapshot.data != null) {
-                    Map<String, dynamic> data =
-                        snapshot.data!.data() as Map<String, dynamic>;
-                    List<dynamic> comments =
-                        data['comments'] ?? ["no comments"];
-                    return Row(children: [
-                      for (var name in comments) Text(name.toString())
-                    ]);
+        child: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              FutureBuilder<DocumentSnapshot>(
+                future: patients.doc(widget.id).get(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<DocumentSnapshot> snapshot) {
+                  if (snapshot.hasError) {
+                    return Text("Something went wrong");
                   }
-                }
 
-                return Text("loading");
-              },
-            ),
-            Container(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(height: 30),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        // SvgPicture.asset(kLeft),
-                        Text("Add Comment",
-                            style: TextStyle(
-                                fontSize: 20, fontWeight: kh3FontWeight)),
-                        SizedBox.shrink()
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  const SizedBox(height: 10),
-                  Form(
-                    key: _formKey,
-                    child: Container(
-                      child: TextField(
-                        controller: commentController,
-                        decoration: InputDecoration(labelText: 'Enter Comment'),
+                  if (snapshot.hasData && !snapshot.data!.exists) {
+                    return Text("Document does not exist");
+                  }
+
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    if (snapshot.hasData && snapshot.data != null) {
+                      Map<String, dynamic> data =
+                          snapshot.data!.data() as Map<String, dynamic>;
+                      List<dynamic> comments =
+                          data['comments'] ?? ["no comments"];
+                      return SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.7,
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.vertical,
+                          child: Column(children: [
+                            for (var comment in comments)
+                              CommentCard(
+                                  comment: comment["comment"].toString(),
+                                  docId: comment["byDoc"].toString())
+                          ]),
+                        ),
+                      );
+                    }
+                  }
+
+                  return Text("loading");
+                },
+              ),
+              Container(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 10),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          // SvgPicture.asset(kLeft),
+                          Text("Add Comment",
+                              style: TextStyle(
+                                  fontSize: 20, fontWeight: kh3FontWeight)),
+                          SizedBox.shrink()
+                        ],
                       ),
                     ),
-                  ),
-                  SizedBox(height: 20),
-                  CustomTextButton(
-                      onTap: () async {
-                        if (_formKey.currentState!.validate()) {
-                          log('going in');
-                          await docService.addCommentToPatient(
-                              "${commentController.text}", id);
-                          showSnackBar(context, "comment added");
+                    const SizedBox(height: 10),
+                    const SizedBox(height: 10),
+                    Form(
+                      key: _formKey,
+                      child: Container(
+                        child: CustomTextField(
+                            controller: commentController,
+                            hintText: "add comment"),
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    CustomTextButton(
+                        onTap: () async {
+                          if (_formKey.currentState!.validate()) {
+                            // log('going in');
+                            await docService.addCommentToPatient(
+                                "${commentController.text}", id);
+                            showSnackBar(context, "comment added");
 
-                          // DocumentSnapshot<Object?> data =
-                          //     await docService.getDoctor();
-                          // log(data.data().toString());
-                        }
-                      },
-                      fullWidth: true,
-                      label: "Save",
-                      children: SvgPicture.asset(kAdd))
-                ],
-              ),
-            )
-          ],
+                            // DocumentSnapshot<Object?> data =
+                            //     await docService.getDoctor();
+                            // log(data.data().toString());
+                          }
+                        },
+                        fullWidth: true,
+                        label: "Save",
+                        children: SvgPicture.asset(kAdd))
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

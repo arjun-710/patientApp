@@ -111,10 +111,18 @@ class DoctorUser {
 
   addCommentToPatient(String comment, String id) async {
     User user = service.user;
+
+    String docName = "";
+    await db
+        .collection("doctors")
+        .doc(user.phoneNumber)
+        .get()
+        .then((value) => {docName = value.data()!["name"].toString()});
+
+    // String docName = docSnap.data()!["name"].toString();
     log(comment);
     log(id);
-    final Comment _comment =
-        Comment(comment: comment, byDoc: user.phoneNumber.toString());
+    final Comment _comment = Comment(comment: comment, byDoc: docName);
     await db.collection("patients").doc(id).update({
       "comments": FieldValue.arrayUnion([_comment.toJson()])
     });
