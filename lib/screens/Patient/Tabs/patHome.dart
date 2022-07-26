@@ -103,7 +103,8 @@ class homeWidget extends StatelessWidget {
               const InfoCard(
                 posType: "Doctor incharge",
                 name: "Dr. Park",
-                nextVisit: "Next visit at 4pm",
+                age: "21",
+                gender: "male",
                 svgPath: kDocCircle,
                 child: SizedBox.shrink(),
               ),

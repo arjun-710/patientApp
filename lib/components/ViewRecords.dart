@@ -51,14 +51,40 @@ class _ViewRecordsState extends State<ViewRecords> {
                           snapshot.data!.data() as Map<String, dynamic>;
                       List<dynamic> records = data['records'] ?? ["no records"];
                       return SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.7,
-                        child: SingleChildScrollView(
-                          scrollDirection: Axis.vertical,
-                          child: Column(children: [
-                            for (var record in records) Text(record.toString()),
-                          ]),
-                        ),
-                      );
+                          height: MediaQuery.of(context).size.height * 0.7,
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.vertical,
+                            child: Column(
+                                children: records.map((value) {
+                              return Column(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 40, horizontal: 30),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          color: k3Color,
+                                          borderRadius: BorderRadius.circular(
+                                              kBorderRadius)),
+                                      padding: const EdgeInsets.all(8),
+                                      child: Row(
+                                        children: [
+                                          SizedBox(
+                                              width: 50,
+                                              height: 50,
+                                              child: SvgPicture.asset(kJpg)),
+                                          SizedBox(width: 20),
+                                          Text(value["name"]),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(height: 20)
+                                ],
+                              );
+                              //Return an empty Container for non-matching case
+                            }).toList()),
+                          ));
                     }
                   }
 
@@ -99,13 +125,9 @@ class _ViewRecordsState extends State<ViewRecords> {
                               ),
                             ),
                           );
-
-                          // DocumentSnapshot<Object?> data =
-                          //     await docService.getDoctor();
-                          // log(data.data().toString());
                         },
                         fullWidth: true,
-                        label: "Save",
+                        label: "Save new Record",
                         children: SvgPicture.asset(kAdd))
                   ],
                 ),

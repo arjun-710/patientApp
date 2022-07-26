@@ -6,7 +6,8 @@ import 'package:patient_app/constants.dart';
 class InfoCard extends StatelessWidget {
   final String posType;
   final String name;
-  final String nextVisit;
+  final String age;
+  final String gender;
   final String svgPath;
   final Color color;
   final Widget child;
@@ -14,10 +15,11 @@ class InfoCard extends StatelessWidget {
     Key? key,
     required this.posType,
     required this.name,
-    required this.nextVisit,
+    required this.age,
     required this.svgPath,
     required this.child,
     this.color = kPatCardColor,
+    required this.gender,
   }) : super(key: key);
 
   @override
@@ -27,6 +29,11 @@ class InfoCard extends StatelessWidget {
         return SizedBox.shrink();
       }
       return SizedBox(height: 10);
+    }
+
+    Text CustomText(data) {
+      return Text(data,
+          style: const TextStyle(fontSize: kh4size, color: kStrokeColor));
     }
 
     return Container(
@@ -56,17 +63,24 @@ class InfoCard extends StatelessWidget {
                 const SizedBox(height: 15),
                 Row(
                   children: [
-                    SvgPicture.asset(
-                      kTimeLogo,
-                    ),
-                    const SizedBox(width: 10.0),
-                    Text(
-                      nextVisit,
-                      style: const TextStyle(
-                          fontSize: kh4size, color: kStrokeColor),
-                    ),
+                    CustomText("${age} yrs"),
+                    CustomText(" | "),
+                    CustomText(gender),
                   ],
                 ),
+                // Row(
+                //   children: [
+                //     SvgPicture.asset(
+                //       kTimeLogo,
+                //     ),
+                //     const SizedBox(width: 10.0),
+                //     Text(
+                //       nextVisit,
+                //       style: const TextStyle(
+                //           fontSize: kh4size, color: kStrokeColor),
+                //     ),
+                //   ],
+                // ),
                 _buildChild(),
                 child,
               ],
