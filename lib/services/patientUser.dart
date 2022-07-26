@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:patient_app/services/AuthService.dart';
 import 'package:patient_app/services/doctorUser.dart';
 
@@ -143,7 +144,8 @@ class PatientUser {
       },
     );
     await db.collection("prescriptions").doc(prescriptionId).set({
-      "medicines": FieldValue.arrayUnion([med.toJson()])
+      "medicines": FieldValue.arrayUnion([med.toJson()]),
+      "patientId": patId
     }, SetOptions(merge: true));
   }
 

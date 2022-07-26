@@ -1,6 +1,3 @@
-import 'dart:convert';
-import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +6,6 @@ import 'package:patient_app/components/CustomText.dart';
 import 'package:patient_app/constants.dart';
 import 'package:patient_app/screens/Doctor/components/addPrescription.dart';
 import 'package:patient_app/services/AuthService.dart';
-import 'package:patient_app/services/doctorUser.dart';
 
 class AssignedPatients extends StatelessWidget {
   const AssignedPatients({Key? key}) : super(key: key);

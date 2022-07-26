@@ -1,12 +1,9 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:patient_app/components/CustomText.dart';
 import 'package:patient_app/components/CustomTextButton.dart';
 import 'package:patient_app/components/CustomTextField.dart';
 import 'package:patient_app/constants.dart';
-import 'package:patient_app/services/doctorUser.dart';
 import 'package:patient_app/services/patientUser.dart';
 import 'package:patient_app/utils/showSnackBar.dart';
 
@@ -30,7 +27,6 @@ class _AddPrescriptionState extends State<AddPrescription> {
   TextEditingController _quantity = TextEditingController();
   TextEditingController _frequency = TextEditingController();
   void removeItem(int index) async {
-    log("called delete");
     PatientUser service = PatientUser();
     medicines = List.from(medicines)..removeAt(index);
     await service.removePrescription(medicines, patId);
@@ -95,7 +91,7 @@ class _AddPrescriptionState extends State<AddPrescription> {
               SizedBox(height: 40),
               SingleChildScrollView(
                 child: SizedBox(
-                  height: MediaQuery.of(context).size.height / 3,
+                  height: MediaQuery.of(context).size.height / 2.1,
                   child: ListView.separated(
                     itemCount: medicines.length,
                     separatorBuilder: (BuildContext context, int index) =>
