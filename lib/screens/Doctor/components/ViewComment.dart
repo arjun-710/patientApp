@@ -54,8 +54,12 @@ class _ViewCommentsState extends State<ViewComments> {
                     if (snapshot.hasData && snapshot.data != null) {
                       Map<String, dynamic> data =
                           snapshot.data!.data() as Map<String, dynamic>;
-                      List<dynamic> comments =
-                          data['comments'] ?? ["no comments"];
+
+                      List<dynamic> comments = [];
+                      if (data.isNotEmpty) {
+                        comments = ((data['comments'] ?? []) as List);
+                      }
+
                       return SizedBox(
                         height: MediaQuery.of(context).size.height * 0.7,
                         child: SingleChildScrollView(
@@ -106,7 +110,6 @@ class _ViewCommentsState extends State<ViewComments> {
                     CustomTextButton(
                         onTap: () async {
                           if (_formKey.currentState!.validate()) {
-                            // log('going in');
                             await docService.addCommentToPatient(
                                 "${commentController.text}", id);
                             showSnackBar(context, "comment added");
