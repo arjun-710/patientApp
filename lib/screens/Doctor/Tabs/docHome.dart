@@ -68,16 +68,34 @@ class DocHome extends StatelessWidget {
                     child: FutureBuilder<Object>(
                         future: future,
                         builder: (context, AsyncSnapshot snapshot) {
+                          if (snapshot.hasError) {
+                            return const Text('Error');
+                          }
                           if (snapshot.hasData) {
-                            return doctorHome(
-                              name: snapshot.data["name"],
-                              gender: snapshot.data["gender"],
-                              age: snapshot.data["age"],
-                              qualification: snapshot.data["qualification"],
-                              department: snapshot.data["department"],
-                              patients: snapshot.data["patients"],
-                            );
-                          } else
+                            if (!snapshot.data!.exists) {
+                              return const Text('Document not found');
+                            } else {
+                              return doctorHome(
+                                name: snapshot.data["name"],
+                                gender: snapshot.data["gender"],
+                                age: snapshot.data["age"],
+                                qualification: snapshot.data["qualification"],
+                                department: snapshot.data["department"],
+                                patients: snapshot.data["patients"],
+                              );
+                            }
+                          }
+                          // if (snapshot.hasData) {
+                          //   return doctorHome(
+                          //     name: snapshot.data["name"],
+                          //     gender: snapshot.data["gender"],
+                          //     age: snapshot.data["age"],
+                          //     qualification: snapshot.data["qualification"],
+                          //     department: snapshot.data["department"],
+                          //     patients: snapshot.data["patients"],
+                          //   );
+                          // }
+                          else
                             return Scaffold(
                               body: Center(child: CircularProgressIndicator()),
                             );
