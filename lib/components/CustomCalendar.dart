@@ -33,7 +33,7 @@ class _CustomCalendarState extends State<CustomCalendar> {
   @override
   void initState() {
     scrollController =
-        ScrollController(initialScrollOffset: 56.5 * currentDateTime.day);
+        ScrollController(initialScrollOffset: 59.7 * currentDateTime.day);
     super.initState();
   }
 

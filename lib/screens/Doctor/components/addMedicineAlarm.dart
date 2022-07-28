@@ -1,25 +1,31 @@
 import 'dart:developer';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:patient_app/components/CustomAutoComplete.dart';
 import 'package:patient_app/components/CustomText.dart';
 import 'package:patient_app/components/CustomTextButton.dart';
 import 'package:patient_app/components/CustomTextField.dart';
 import 'package:patient_app/constants.dart';
 import 'package:patient_app/screens/Doctor/components/customInfiniteScroll.dart';
-import 'package:patient_app/services/AuthService.dart';
 import 'package:patient_app/utils/colors_util.dart';
-// import 'package:patient_app/screens/Doctor/components/weekDays.dart';
 
 class AddMedicineAlarm extends StatefulWidget {
-  const AddMedicineAlarm({Key? key}) : super(key: key);
+  final String patName;
+  final List medicines;
+  const AddMedicineAlarm(
+      {Key? key, required this.patName, required this.medicines})
+      : super(key: key);
 
   @override
-  State<AddMedicineAlarm> createState() => _AddMedicineAlarmState();
+  State<AddMedicineAlarm> createState() =>
+      _AddMedicineAlarmState(patName, medicines);
 }
 
 class _AddMedicineAlarmState extends State<AddMedicineAlarm> {
+  final String patName;
+  final List medicines;
+  _AddMedicineAlarmState(this.patName, this.medicines);
   bool isAm = true;
   List<int> allHours = [
     00,
@@ -124,6 +130,11 @@ class _AddMedicineAlarmState extends State<AddMedicineAlarm> {
   int _mySelection = 0;
   TextEditingController medName = TextEditingController();
   TextEditingController medQuantity = TextEditingController();
+  static List<String> medOptions = <String>[
+    'aardvark',
+    'bobcat',
+    'chameleon',
+  ];
 
   void getHourIdx(idx) {
     this.setState(() {
@@ -141,15 +152,12 @@ class _AddMedicineAlarmState extends State<AddMedicineAlarm> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    medOptions = medicines.map((e) => e["medName"]).toList().cast();
   }
 
   @override
   Widget build(BuildContext context) {
-    AuthService service = AuthService(FirebaseAuth.instance);
-    User user = service.user;
-    CollectionReference doctors =
-        FirebaseFirestore.instance.collection('doctors');
-    late final _future = doctors.doc(user.phoneNumber).get();
+    log(medicines.toString());
     return SafeArea(
         child: Scaffold(
             body: Padding(
@@ -178,7 +186,7 @@ class _AddMedicineAlarmState extends State<AddMedicineAlarm> {
                   //   },
                   //   value: _mySelection,
                   // ),
-                  Text("Patient",
+                  Text(patName,
                       style:
                           TextStyle(fontSize: 32, fontWeight: kh3FontWeight)),
                   SvgPicture.asset(kDelete)
@@ -311,7 +319,19 @@ class _AddMedicineAlarmState extends State<AddMedicineAlarm> {
               ],
             ),
             SizedBox(height: 40),
-            CustomTextField(controller: medName, hintText: "medicine Name"),
+            CustomAutoComplete(
+              medOptions: medOptions,
+              hintText: "medicine Name",
+              onSelect: (value) {
+                List val = medicines
+                    .where((element) => element["medName"] == value)
+                    .toList();
+                if (val.length > 0) {
+                  medQuantity.text = "${val[0]["quantity"].toString()} ";
+                  this.setState(() {});
+                }
+              },
+            ),
             SizedBox(height: 20),
             CustomTextField(controller: medQuantity, hintText: "Quantity"),
             SizedBox(height: 40),

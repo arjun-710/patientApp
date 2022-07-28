@@ -24,9 +24,9 @@ const String kFilter = 'assets/filter.svg';
 const String kAdd = 'assets/add.svg';
 const String kDelete = 'assets/delete.svg';
 const String kPatient = 'assets/patient.svg';
-const String kJpg = 'assets/jpg.svg';
-const String kPdf = 'assets/pdf.svg';
 const String kComment = 'assets/comment.svg';
+const String kJpg = 'assets/jpg.svg';
+const String KfileDoc = 'assets/fileDoc.svg';
 
 const String kDocCircle = 'assets/docCircle.svg';
 const String kEmergencyWard = 'assets/emergencyWard.svg';
