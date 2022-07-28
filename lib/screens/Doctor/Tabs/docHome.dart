@@ -216,7 +216,8 @@ class _myInfo_cardState extends State<myInfo_card> {
                               builder: (BuildContext context,
                                   AsyncSnapshot<DocumentSnapshot> snapshot) {
                                 if (!snapshot.hasData) {
-                                  return Text("Loading");
+                                  return Center(
+                                      child: CircularProgressIndicator());
                                 }
                                 if (snapshot.hasData && snapshot.data != null) {
                                   var data = snapshot.data;

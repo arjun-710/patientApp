@@ -127,7 +127,7 @@ class _ViewCommentsState extends State<ViewComments> {
                       }
                     }
 
-                    return Text("loading");
+                    return Center(child: CircularProgressIndicator());
                   },
                 ),
                 Container(

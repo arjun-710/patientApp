@@ -15,13 +15,7 @@ class PatLanding extends StatefulWidget {
 }
 
 class _PatLandingState extends State<PatLanding> {
-  var currentTab = [
-    PatHome(),
-    PatBooks(),
-    PatAlarm(),
-    PatRecords(),
-    PatMedia()
-  ];
+  var currentTab = [PatHome(), PatAlarm(), PatRecords(), PatMedia()];
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +24,7 @@ class _PatLandingState extends State<PatLanding> {
       bottomNavigationBar: CustomNavigation(
         iconList: const [
           kHomeLogo,
-          kBooksLogo,
+          // kBooksLogo,
           kAlarmLogo,
           kRecordsLogo,
           kMediaLogo

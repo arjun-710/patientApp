@@ -56,6 +56,8 @@ class _AddRecordState extends State<AddRecord> {
       await user.addLink(urlDownload.toString(), fileType[0].toString(),
           pickedFile!.name.toString(), patId.toString());
       showSnackBar(context, 'Added to records');
+      Navigator.pop(context);
+      Navigator.pop(context);
     } catch (e) {
       throw e;
     }

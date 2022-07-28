@@ -115,7 +115,7 @@ class AssignedPatients extends StatelessWidget {
           }
         }
 
-        return Text("loading");
+        return Center(child: CircularProgressIndicator());
       },
     );
   }

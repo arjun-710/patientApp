@@ -68,7 +68,7 @@ class _DocAlarmState extends State<DocAlarm> {
               SvgPicture.asset(kFilter)
             ],
           ),
-          SizedBox(height: 20),
+          SizedBox(height: MediaQuery.of(context).size.height / 2.5),
           CustomTextButton(
               onTap: () {
                 Navigator.push(
@@ -235,7 +235,7 @@ class PatAssigned extends StatelessWidget {
           }
         }
 
-        return Text("loading");
+        return Center(child: CircularProgressIndicator());
       },
     );
   }

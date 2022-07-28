@@ -9,6 +9,7 @@ import 'package:patient_app/components/CustomTextField.dart';
 import 'package:patient_app/constants.dart';
 import 'package:patient_app/screens/Doctor/components/customInfiniteScroll.dart';
 import 'package:patient_app/utils/colors_util.dart';
+import 'package:patient_app/utils/showSnackBar.dart';
 
 class AddMedicineAlarm extends StatefulWidget {
   final String patName;
@@ -336,7 +337,11 @@ class _AddMedicineAlarmState extends State<AddMedicineAlarm> {
             CustomTextField(controller: medQuantity, hintText: "Quantity"),
             SizedBox(height: 40),
             CustomTextButton(
-                onTap: () {}, label: "Save Alarm", children: SizedBox.shrink())
+                onTap: () {
+                  showSnackBar(context, "service error");
+                },
+                label: "Save Alarm",
+                children: SizedBox.shrink())
           ],
         ),
       ),
