@@ -49,7 +49,10 @@ class _ViewRecordsState extends State<ViewRecords> {
                     if (snapshot.hasData && snapshot.data != null) {
                       Map<String, dynamic> data =
                           snapshot.data!.data() as Map<String, dynamic>;
-                      List<dynamic> records = data['records'] ?? ["no records"];
+                      List<dynamic> records = [];
+                      if (data.isNotEmpty) {
+                        records = ((data['records'] ?? []) as List);
+                      }
                       return SizedBox(
                           height: MediaQuery.of(context).size.height * 0.7,
                           child: SingleChildScrollView(
@@ -74,7 +77,17 @@ class _ViewRecordsState extends State<ViewRecords> {
                                               height: 50,
                                               child: SvgPicture.asset(kJpg)),
                                           SizedBox(width: 20),
-                                          Text(value["name"]),
+                                          Flexible(
+                                            child: RichText(
+                                              overflow: TextOverflow.ellipsis,
+                                              strutStyle:
+                                                  StrutStyle(fontSize: 12.0),
+                                              text: TextSpan(
+                                                  style: TextStyle(
+                                                      color: Colors.black),
+                                                  text: value["name"]),
+                                            ),
+                                          ),
                                         ],
                                       ),
                                     ),

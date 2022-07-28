@@ -9,16 +9,12 @@ import 'package:patient_app/services/doctorUser.dart';
 class Comment {
   final String comment;
   final String byDoc;
+  final String? docId;
 
-  Comment({
-    required this.comment,
-    required this.byDoc,
-  });
+  Comment({required this.comment, required this.byDoc, required this.docId});
 
-  Map<String, dynamic> toJson() => {
-        'comment': comment,
-        'byDoc': byDoc,
-      };
+  Map<String, dynamic> toJson() =>
+      {'comment': comment, 'byDoc': byDoc, 'docId': docId};
 }
 
 class LinkType {
@@ -138,6 +134,13 @@ class PatientUser {
         "records": FieldValue.arrayUnion([link.toJson()])
       },
     );
+  }
+
+  removeComments(List comments, String patId) async {
+    await db
+        .collection("patients")
+        .doc(patId)
+        .set({"comments": comments}, SetOptions(merge: true));
   }
 
   removePrescription(List medicines, String patId) async {

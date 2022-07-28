@@ -150,7 +150,8 @@ class DoctorUser {
         .then((value) => {docName = value.data()!["name"].toString()});
 
     // String docName = docSnap.data()!["name"].toString();
-    final Comment _comment = Comment(comment: comment, byDoc: docName);
+    final Comment _comment =
+        Comment(comment: comment, byDoc: docName, docId: user.phoneNumber);
     await db.collection("patients").doc(id).update({
       "comments": FieldValue.arrayUnion([_comment.toJson()])
     });

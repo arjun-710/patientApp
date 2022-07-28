@@ -149,229 +149,178 @@ class _AddMedicineAlarmState extends State<AddMedicineAlarm> {
     User user = service.user;
     CollectionReference doctors =
         FirebaseFirestore.instance.collection('doctors');
+    late final _future = doctors.doc(user.phoneNumber).get();
     return SafeArea(
-      child: FutureBuilder<DocumentSnapshot>(
-        future: doctors.doc(user.phoneNumber).get(),
-        builder:
-            (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-          if (snapshot.hasError) {
-            return Text("Something went wrong");
-          }
-
-          if (snapshot.hasData && !snapshot.data!.exists) {
-            return Text("Document does not exist");
-          }
-
-          if (snapshot.connectionState == ConnectionState.done) {
-            if (snapshot.hasData && snapshot.data != null) {
-              Map<String, dynamic>? data =
-                  snapshot.data!.data() as Map<String, dynamic>;
-              List<dynamic> patients = [];
-              if (data.isNotEmpty) {
-                patients = ((data['patients'] ?? []) as List);
-              }
-              return Scaffold(
-                  body: Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      SizedBox(height: 30),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 30),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            SvgPicture.asset(kLeft),
-                            // DropdownButton(
-                            //   items: patients.map((item) {
-                            //     return DropdownMenuItem(
-                            //       child: Text("hi"),
-                            //       value: item.isNotEmpty ? item : null,
-                            //     );
-                            //   }).toList(),
-                            //   onChanged: (newVal) {
-                            //     // setState(() {
-                            //     //   _mySelection = newVal;
-                            //     // });
-                            //   },
-                            //   value: _mySelection,
-                            // ),
-                            Text("Patient",
-                                style: TextStyle(
-                                    fontSize: 32, fontWeight: kh3FontWeight)),
-                            SvgPicture.asset(kDelete)
-                          ],
-                        ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          CustomInfinteScroll(
-                              list: allHours,
-                              callback: getHourIdx,
-                              initialScroll: 65.0),
-                          SizedBox(width: 15),
-                          H2Text(text: ":"),
-                          SizedBox(width: 15),
-                          CustomInfinteScroll(
-                              list: allMinutes,
-                              callback: getMinuteIdx,
-                              initialScroll: 65),
-                        ],
-                      ),
-                      SizedBox(height: 30),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          AmPm(
-                              text: "AM",
-                              onTap: () {
-                                this.setState(() {
-                                  isAm = true;
-                                });
-                              },
-                              isAm: isAm),
-                          AmPm(
-                              text: "PM",
-                              onTap: () {
-                                this.setState(() {
-                                  isAm = false;
-                                });
-                              },
-                              isAm: !isAm),
-                        ],
-                      ),
-                      SizedBox(height: 30),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                isSun = !isSun;
-                              });
-                            },
-                            child: Container(
-                                padding: EdgeInsets.all(15),
-                                decoration: BoxDecoration(
-                                    color: isSun
-                                        ? kPatCardColor
-                                        : HexColor("EFF6FC"),
-                                    borderRadius:
-                                        BorderRadius.circular(kBorderRadius)),
-                                child: Text("S")),
-                          ),
-                          SizedBox(width: 10),
-                          GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                isMon = !isMon;
-                              });
-                            },
-                            child: Container(
-                                padding: EdgeInsets.all(15),
-                                decoration: BoxDecoration(
-                                    color: isMon
-                                        ? kPatCardColor
-                                        : HexColor("EFF6FC"),
-                                    borderRadius:
-                                        BorderRadius.circular(kBorderRadius)),
-                                child: Text("M")),
-                          ),
-                          SizedBox(width: 10),
-                          GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                isTue = !isTue;
-                              });
-                            },
-                            child: Container(
-                                padding: EdgeInsets.all(15),
-                                decoration: BoxDecoration(
-                                    color: isTue
-                                        ? kPatCardColor
-                                        : HexColor("EFF6FC"),
-                                    borderRadius:
-                                        BorderRadius.circular(kBorderRadius)),
-                                child: Text("T")),
-                          ),
-                          SizedBox(width: 10),
-                          GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                isThu = !isThu;
-                              });
-                            },
-                            child: Container(
-                                padding: EdgeInsets.all(15),
-                                decoration: BoxDecoration(
-                                    color: isThu
-                                        ? kPatCardColor
-                                        : HexColor("EFF6FC"),
-                                    borderRadius:
-                                        BorderRadius.circular(kBorderRadius)),
-                                child: Text("Th")),
-                          ),
-                          SizedBox(width: 10),
-                          GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                isFri = !isFri;
-                              });
-                            },
-                            child: Container(
-                                padding: EdgeInsets.all(15),
-                                decoration: BoxDecoration(
-                                    color: isFri
-                                        ? kPatCardColor
-                                        : HexColor("EFF6FC"),
-                                    borderRadius:
-                                        BorderRadius.circular(kBorderRadius)),
-                                child: Text("F")),
-                          ),
-                          SizedBox(width: 10),
-                          GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                isSat = !isSat;
-                              });
-                            },
-                            child: Container(
-                                padding: EdgeInsets.all(15),
-                                decoration: BoxDecoration(
-                                    color: isSat
-                                        ? kPatCardColor
-                                        : HexColor("EFF6FC"),
-                                    borderRadius:
-                                        BorderRadius.circular(kBorderRadius)),
-                                child: Text("S")),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 40),
-                      CustomTextField(
-                          controller: medName, hintText: "medicine Name"),
-                      SizedBox(height: 20),
-                      CustomTextField(
-                          controller: medQuantity, hintText: "Quantity"),
-                      SizedBox(height: 40),
-                      CustomTextButton(
-                          onTap: () {},
-                          label: "Save Alarm",
-                          children: SizedBox.shrink())
-                    ],
-                  ),
+        child: Scaffold(
+            body: Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(height: 30),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 30),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SvgPicture.asset(kLeft),
+                  // DropdownButton(
+                  //   items: patients.map((item) {
+                  //     return DropdownMenuItem(
+                  //       child: Text("hi"),
+                  //       value: item.isNotEmpty ? item : null,
+                  //     );
+                  //   }).toList(),
+                  //   onChanged: (newVal) {
+                  //     // setState(() {
+                  //     //   _mySelection = newVal;
+                  //     // });
+                  //   },
+                  //   value: _mySelection,
+                  // ),
+                  Text("Patient",
+                      style:
+                          TextStyle(fontSize: 32, fontWeight: kh3FontWeight)),
+                  SvgPicture.asset(kDelete)
+                ],
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CustomInfinteScroll(
+                    list: allHours, callback: getHourIdx, initialScroll: 65.0),
+                SizedBox(width: 15),
+                H2Text(text: ":"),
+                SizedBox(width: 15),
+                CustomInfinteScroll(
+                    list: allMinutes,
+                    callback: getMinuteIdx,
+                    initialScroll: 65),
+              ],
+            ),
+            SizedBox(height: 30),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                AmPm(
+                    text: "AM",
+                    onTap: () {
+                      this.setState(() {
+                        isAm = true;
+                      });
+                    },
+                    isAm: isAm),
+                AmPm(
+                    text: "PM",
+                    onTap: () {
+                      this.setState(() {
+                        isAm = false;
+                      });
+                    },
+                    isAm: !isAm),
+              ],
+            ),
+            SizedBox(height: 30),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      isSun = !isSun;
+                    });
+                  },
+                  child: Container(
+                      padding: EdgeInsets.all(15),
+                      decoration: BoxDecoration(
+                          color: isSun ? kPatCardColor : HexColor("EFF6FC"),
+                          borderRadius: BorderRadius.circular(kBorderRadius)),
+                      child: Text("S")),
                 ),
-              ));
-            }
-          }
-
-          return Scaffold(body: Text("loading"));
-        },
+                SizedBox(width: 10),
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      isMon = !isMon;
+                    });
+                  },
+                  child: Container(
+                      padding: EdgeInsets.all(15),
+                      decoration: BoxDecoration(
+                          color: isMon ? kPatCardColor : HexColor("EFF6FC"),
+                          borderRadius: BorderRadius.circular(kBorderRadius)),
+                      child: Text("M")),
+                ),
+                SizedBox(width: 10),
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      isTue = !isTue;
+                    });
+                  },
+                  child: Container(
+                      padding: EdgeInsets.all(15),
+                      decoration: BoxDecoration(
+                          color: isTue ? kPatCardColor : HexColor("EFF6FC"),
+                          borderRadius: BorderRadius.circular(kBorderRadius)),
+                      child: Text("T")),
+                ),
+                SizedBox(width: 10),
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      isThu = !isThu;
+                    });
+                  },
+                  child: Container(
+                      padding: EdgeInsets.all(15),
+                      decoration: BoxDecoration(
+                          color: isThu ? kPatCardColor : HexColor("EFF6FC"),
+                          borderRadius: BorderRadius.circular(kBorderRadius)),
+                      child: Text("Th")),
+                ),
+                SizedBox(width: 10),
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      isFri = !isFri;
+                    });
+                  },
+                  child: Container(
+                      padding: EdgeInsets.all(15),
+                      decoration: BoxDecoration(
+                          color: isFri ? kPatCardColor : HexColor("EFF6FC"),
+                          borderRadius: BorderRadius.circular(kBorderRadius)),
+                      child: Text("F")),
+                ),
+                SizedBox(width: 10),
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      isSat = !isSat;
+                    });
+                  },
+                  child: Container(
+                      padding: EdgeInsets.all(15),
+                      decoration: BoxDecoration(
+                          color: isSat ? kPatCardColor : HexColor("EFF6FC"),
+                          borderRadius: BorderRadius.circular(kBorderRadius)),
+                      child: Text("S")),
+                ),
+              ],
+            ),
+            SizedBox(height: 40),
+            CustomTextField(controller: medName, hintText: "medicine Name"),
+            SizedBox(height: 20),
+            CustomTextField(controller: medQuantity, hintText: "Quantity"),
+            SizedBox(height: 40),
+            CustomTextButton(
+                onTap: () {}, label: "Save Alarm", children: SizedBox.shrink())
+          ],
+        ),
       ),
-    );
+    )));
   }
 }
 

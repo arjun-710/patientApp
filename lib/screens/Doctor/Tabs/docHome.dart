@@ -76,12 +76,13 @@ class DocHome extends StatelessWidget {
                               return const Text('Document not found');
                             } else {
                               return doctorHome(
-                                name: snapshot.data["name"],
-                                gender: snapshot.data["gender"],
-                                age: snapshot.data["age"],
-                                qualification: snapshot.data["qualification"],
-                                department: snapshot.data["department"],
-                                patients: snapshot.data["patients"],
+                                name: snapshot.data["name"] ?? "",
+                                gender: snapshot.data["gender"] ?? "",
+                                age: snapshot.data["age"] ?? "",
+                                qualification:
+                                    snapshot.data["qualification"] ?? "",
+                                department: snapshot.data["department"] ?? "",
+                                patients: snapshot.data["patients"] ?? "",
                               );
                             }
                           }
