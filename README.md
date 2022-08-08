@@ -1,16 +1,4 @@
-# patient_app
+SMARTABLE APP - An app for patient and doctor management
 
-A new Flutter project.
+https://user-images.githubusercontent.com/55049331/183340395-84c062e6-3627-4c78-a3d7-e02c30bc3c8e.mp4
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
